@@ -1,4 +1,7 @@
 -- Create database
+USE master
+GO
+
 IF EXISTS(SELECT * FROM sys.databases WHERE name='BorderlessDb')
 	DROP DATABASE BorderlessDb
 CREATE DATABASE BorderlessDb;
@@ -6,11 +9,13 @@ CREATE DATABASE BorderlessDb;
 -- Create Tables
 
 USE [BorderlessDb];
+GO
+
 
 CREATE TABLE [Users] (
 	[ID] uniqueidentifier NOT NULL,
 	[Username] varchar(50) NOT NULL,
-	[Password] varchar(32) NOT NULL,
+	[PasswordHash] varchar(500) NOT NULL,
 	[FirstName] varchar(50) NOT NULL,
 	[LastName] varchar(50) NOT NULL,
 	[Email] varchar(100),
@@ -26,8 +31,8 @@ CONSTRAINT [PK_Languages] PRIMARY KEY ([ID])
 
 CREATE TABLE [Projects] (
 	[ID] uniqueidentifier NOT NULL,
-	[Name] varchar(100) NOT NULL,
-	[Description] varchar(1000),
+	[Name] nvarchar(250) NOT NULL,
+	[Description] nvarchar(1000),
 	[UserID] uniqueidentifier NOT NULL,
 	[SourceLanguageID] uniqueidentifier NOT NULL,  -- one source language for the project
 CONSTRAINT [PK_Projects] PRIMARY KEY ([ID]),
@@ -45,7 +50,7 @@ CONSTRAINT [FK_Languages_TargetLanguages] FOREIGN KEY ([LanguageID]) REFERENCES 
 
 CREATE TABLE [Phrases] (
 	[ID] uniqueidentifier NOT NULL,
-	[Text] varchar(500) NOT NULL,
+	[Text] nvarchar(500) NOT NULL,
 	[ProjectID] uniqueidentifier NOT NULL,
 CONSTRAINT [PK_Phrases] PRIMARY KEY ([ID]),
 CONSTRAINT [FK_Phrases_Project] FOREIGN KEY ([ProjectID]) REFERENCES [Projects]([ID])
@@ -53,12 +58,14 @@ CONSTRAINT [FK_Phrases_Project] FOREIGN KEY ([ProjectID]) REFERENCES [Projects](
 
 CREATE TABLE [Translations] (
 	[ID] uniqueidentifier NOT NULL,
-	[Text] varchar(500) NOT NULL,
+	[Text] nvarchar(500) NOT NULL,
 	[PhraseID] uniqueidentifier NOT NULL,
 	[LanguageID] uniqueidentifier NOT NULL,
+	[UserID] uniqueidentifier NOT NULL,
 CONSTRAINT [PK_Translations] PRIMARY KEY ([ID]),
 CONSTRAINT [FK_Translations_Phrase] FOREIGN KEY ([PhraseID]) REFERENCES [Phrases]([ID]),
-CONSTRAINT [FK_Translations_Language] FOREIGN KEY ([LanguageID]) REFERENCES [Languages]([ID])
+CONSTRAINT [FK_Translations_Language] FOREIGN KEY ([LanguageID]) REFERENCES [Languages]([ID]),
+CONSTRAINT [FK_Translations_User] FOREIGN KEY ([UserID]) REFERENCES [Users]([ID])
 );
 
 CREATE TABLE [Votes] (  -- join table between Translations and Users
