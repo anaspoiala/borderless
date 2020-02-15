@@ -12,3 +12,5 @@ SELECT * FROM [TargetLanguages]
 SELECT * FROM [Phrases]
 
 SELECT * FROM [Translations]
+
+Select * FROM [Votes]
