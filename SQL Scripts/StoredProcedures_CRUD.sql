@@ -39,6 +39,16 @@ BEGIN
 	WHERE [ID] = @Id
 END
 
+CREATE PROCEDURE dbo.Users_Delete
+(
+	@Id uniqueidentifier
+) 
+AS
+BEGIN
+	DELETE FROM [dbo].[Users]
+	WHERE [ID] = @Id
+END
+
 
 -- CRUD for Projects -----------------------------------------------------------
 
@@ -73,6 +83,16 @@ BEGIN
 	WHERE [ID] = @Id
 END
 
+CREATE PROCEDURE dbo.Projects_Delete
+(
+	@Id uniqueidentifier
+) 
+AS
+BEGIN
+	DELETE FROM [dbo].[Projects]
+	WHERE [ID] = @Id
+END
+
 
 -- CRUD for TargetLanguages -----------------------------------------------------------
 
@@ -102,6 +122,18 @@ BEGIN
 	WHERE [ProjectID] = @ProjectId
 END
 
+CREATE PROCEDURE dbo.TargetLanguages_Delete
+(
+	@ProjectId uniqueidentifier,
+	@LanguageId uniqueidentifier
+) 
+AS
+BEGIN
+	DELETE FROM [dbo].[TargetLanguages]
+	WHERE [ProjectID] = @ProjectId AND [LanguageID] = @LanguageId
+END
+
+
 -- CRUD for Phrases -----------------------------------------------------------
 
 CREATE PROCEDURE dbo.Phrases_Add
@@ -129,6 +161,15 @@ BEGIN
 	WHERE [ID] = @Id
 END
 
+CREATE PROCEDURE dbo.Phrases_Delete
+(
+	@Id uniqueidentifier
+) 
+AS
+BEGIN
+	DELETE FROM [dbo].[Phrases]
+	WHERE [ID] = @Id
+END
 
 
 -- CRUD for Translations -----------------------------------------------------------
@@ -157,6 +198,16 @@ BEGIN
 	UPDATE [dbo].[Translations]
 	SET 
 		[Text] = @Text
+	WHERE [ID] = @Id
+END
+
+CREATE PROCEDURE dbo.Translations_Delete
+(
+	@Id uniqueidentifier
+) 
+AS
+BEGIN
+	DELETE FROM [dbo].[Translations]
 	WHERE [ID] = @Id
 END
 
@@ -190,6 +241,17 @@ BEGIN
 	WHERE [UserID] = @UserId AND [TranslationID] = @TranslationId
 END
 
+CREATE PROCEDURE dbo.Votes_Delete
+(
+	@UserId uniqueidentifier,
+	@TranslationId uniqueidentifier
+) 
+AS
+BEGIN
+	DELETE FROM [dbo].[Votes]
+	WHERE [UserID] = @UserId AND [TranslationID] = @TranslationId
+END
+
 
 -- CRUD for Languages -----------------------------------------------------------
 
@@ -220,6 +282,16 @@ BEGIN
 	WHERE [ID] = @Id
 END
 
+CREATE PROCEDURE dbo.Languages_Delete
+(
+	@Id uniqueidentifier
+) 
+AS
+BEGIN
+	DELETE FROM [dbo].[Languages]
+	WHERE [ID] = @Id
+END
+
 
 
 -------------- DROP Statements --------------
@@ -242,4 +314,12 @@ END
 --DROP PROCEDURE dbo.Votes_UpdateIsUpvote
 --GO  
 
+--DROP PROCEDURE dbo.Users_Delete;  
+--DROP PROCEDURE dbo.Projects_Delete;  
+--DROP PROCEDURE dbo.Languages_Delete;  
+--DROP PROCEDURE dbo.TargetLanguages_Delete;  
+--DROP PROCEDURE dbo.Phrases_Delete;  
+--DROP PROCEDURE dbo.Translations_Delete;  
+--DROP PROCEDURE dbo.Votes_Delete;  
+--GO  
 ---------------------------------------------
