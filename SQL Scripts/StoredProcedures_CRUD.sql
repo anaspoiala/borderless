@@ -49,6 +49,15 @@ BEGIN
 	WHERE [ID] = @Id
 END
 
+CREATE PROCEDURE dbo.Users_ReadById
+(
+	@Id uniqueidentifier
+) 
+AS
+BEGIN
+	SELECT * FROM [dbo].[Users] 
+	WHERE [ID] = @Id 
+END
 
 -- CRUD for Projects -----------------------------------------------------------
 
@@ -93,6 +102,16 @@ BEGIN
 	WHERE [ID] = @Id
 END
 
+CREATE PROCEDURE dbo.Projects_ReadById
+(
+	@Id uniqueidentifier
+) 
+AS
+BEGIN
+	SELECT * FROM [dbo].[Projects] 
+	WHERE [ID] = @Id 
+END
+
 
 -- CRUD for TargetLanguages -----------------------------------------------------------
 
@@ -133,6 +152,17 @@ BEGIN
 	WHERE [ProjectID] = @ProjectId AND [LanguageID] = @LanguageId
 END
 
+CREATE PROCEDURE dbo.TargetLanguages_ReadById
+(
+	@ProjectId uniqueidentifier,
+	@LanguageId uniqueidentifier
+) 
+AS
+BEGIN
+	SELECT * FROM [dbo].[TargetLanguages]
+	WHERE [ProjectID] = @ProjectId AND [LanguageID] = @LanguageId
+END
+
 
 -- CRUD for Phrases -----------------------------------------------------------
 
@@ -169,6 +199,16 @@ AS
 BEGIN
 	DELETE FROM [dbo].[Phrases]
 	WHERE [ID] = @Id
+END
+
+CREATE PROCEDURE dbo.Phrases_ReadById
+(
+	@Id uniqueidentifier
+) 
+AS
+BEGIN
+	SELECT * FROM [dbo].[Phrases] 
+	WHERE [ID] = @Id 
 END
 
 
@@ -211,6 +251,17 @@ BEGIN
 	WHERE [ID] = @Id
 END
 
+CREATE PROCEDURE dbo.Translations_ReadById
+(
+	@Id uniqueidentifier
+) 
+AS
+BEGIN
+	SELECT * FROM [dbo].[Translations] 
+	WHERE [ID] = @Id 
+END
+
+
 
 -- CRUD for Votes -----------------------------------------------------------
 
@@ -252,6 +303,16 @@ BEGIN
 	WHERE [UserID] = @UserId AND [TranslationID] = @TranslationId
 END
 
+CREATE PROCEDURE dbo.Votes_ReadById
+(
+	@UserId uniqueidentifier,
+	@TranslationId uniqueidentifier
+) 
+AS
+BEGIN
+	SELECT * FROM [dbo].[Votes]
+	WHERE [UserID] = @UserId AND [TranslationID] = @TranslationId
+END
 
 -- CRUD for Languages -----------------------------------------------------------
 
@@ -292,6 +353,17 @@ BEGIN
 	WHERE [ID] = @Id
 END
 
+CREATE PROCEDURE dbo.Languages_ReadById
+(
+	@Id uniqueidentifier
+) 
+AS
+BEGIN
+	SELECT * FROM [dbo].[Languages] 
+	WHERE [ID] = @Id 
+END
+
+
 
 
 -------------- DROP Statements --------------
@@ -322,4 +394,14 @@ END
 --DROP PROCEDURE dbo.Translations_Delete;  
 --DROP PROCEDURE dbo.Votes_Delete;  
 --GO  
+
+--DROP PROCEDURE dbo.Users_ReadById;  
+--DROP PROCEDURE dbo.Projects_ReadById;  
+--DROP PROCEDURE dbo.Languages_ReadById;  
+--DROP PROCEDURE dbo.TargetLanguages_ReadById;  
+--DROP PROCEDURE dbo.Phrases_ReadById;  
+--DROP PROCEDURE dbo.Translations_ReadById;  
+--DROP PROCEDURE dbo.Votes_ReadById;  
+--GO  
+
 ---------------------------------------------
