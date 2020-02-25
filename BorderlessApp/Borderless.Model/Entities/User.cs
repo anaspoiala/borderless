@@ -13,5 +13,22 @@ namespace Borderless.Model.Entities
         public string Email { get; set; }
 
         public List<Project> Projects { get; set; }
+
+        public User(Guid id,
+            string username,
+            string passwordHash,
+            string firstName,
+            string lastName,
+            string email,
+            List<Project> projects)
+        {
+            ID = id;
+            Username = username;
+            PasswordHash = passwordHash;
+            FirstName = firstName;
+            LastName = lastName;
+            Email = email;
+            Projects = projects;
+        }
     }
 }
