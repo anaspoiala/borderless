@@ -41,6 +41,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\Language.cs" />
+    <Compile Include="Entities\Phrase.cs" />
+    <Compile Include="Entities\Project.cs" />
+    <Compile Include="Entities\Translation.cs" />
+    <Compile Include="Entities\User.cs" />
+    <Compile Include="Entities\Vote.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
