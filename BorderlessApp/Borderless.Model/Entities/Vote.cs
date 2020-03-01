@@ -4,13 +4,15 @@ namespace Borderless.Model.Entities
 {
     public class Vote
     {
-        public User User { get; set; }
+        public Guid UserID { get; set; }
+        public Guid TranslationID { get; set; }
         public bool IsUpvote { get; set; }
 
-        public Vote(User user, bool isUpvote)
+        public Vote(Guid userID, Guid translationID, bool isUpvote)
         {
-            User = user;
-            IsUpvote = isUpvote;    
+            UserID = userID;
+            TranslationID = translationID;
+            IsUpvote = isUpvote;
         }
     }
 }

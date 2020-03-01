@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace Borderless.Model.Entities
 {
@@ -7,17 +6,17 @@ namespace Borderless.Model.Entities
     {
         public Guid ID { get; set; }
         public string Text { get; set; }
-        public Language Language { get; set; }
-        public User User { get; set; }
-        public List<Vote> Votes { get; set; }
+        public Guid PhraseID { get; set; }
+        public Guid LanguageID { get; set; }
+        public Guid UserID { get; set; }
 
-        public Translation(Guid id, string text, Language language, User user, List<Vote> votes)
+        public Translation(Guid id, string text, Guid phraseID, Guid languageID, Guid userID)
         {
             ID = id;
             Text = text;
-            Language = language;
-            User = user;
-            Votes = votes;  
+            PhraseID = phraseID;
+            LanguageID = languageID;
+            UserID = userID;
         }
     }
 }
