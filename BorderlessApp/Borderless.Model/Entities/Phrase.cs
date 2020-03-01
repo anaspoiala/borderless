@@ -8,9 +8,10 @@ namespace Borderless.Model.Entities
         public Guid ProjectID { get; set; }
         public string Text { get; set; }
 
-        public Phrase(Guid id, string text)
+        public Phrase(Guid id, Guid projectID, string text)
         {
             ID = id;
+            ProjectID = projectID;
             Text = text;
         }
     }
