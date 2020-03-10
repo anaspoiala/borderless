@@ -59,6 +59,12 @@ BEGIN
 	WHERE [ID] = @Id 
 END
 
+CREATE PROCEDURE dbo.Users_ReadAll
+AS
+BEGIN
+	SELECT * FROM [dbo].[Users]
+END
+
 -- CRUD for Projects -----------------------------------------------------------
 
 CREATE PROCEDURE dbo.Projects_Add
@@ -112,6 +118,13 @@ BEGIN
 	WHERE [ID] = @Id 
 END
 
+CREATE PROCEDURE dbo.Projects_ReadAll
+AS
+BEGIN
+	SELECT * FROM [dbo].[Projects] 
+END
+
+
 
 -- CRUD for TargetLanguages -----------------------------------------------------------
 
@@ -163,6 +176,12 @@ BEGIN
 	WHERE [ProjectID] = @ProjectId AND [LanguageID] = @LanguageId
 END
 
+CREATE PROCEDURE dbo.TargetLanguages_ReadAll
+AS
+BEGIN
+	SELECT * FROM [dbo].[TargetLanguages]
+END
+
 
 -- CRUD for Phrases -----------------------------------------------------------
 
@@ -211,6 +230,11 @@ BEGIN
 	WHERE [ID] = @Id 
 END
 
+CREATE PROCEDURE dbo.Phrases_ReadAll
+AS
+BEGIN
+	SELECT * FROM [dbo].[Phrases] 
+END
 
 -- CRUD for Translations -----------------------------------------------------------
 
@@ -261,6 +285,11 @@ BEGIN
 	WHERE [ID] = @Id 
 END
 
+CREATE PROCEDURE dbo.Translations_ReadAll
+AS
+BEGIN
+	SELECT * FROM [dbo].[Translations] 
+END
 
 
 -- CRUD for Votes -----------------------------------------------------------
@@ -314,6 +343,12 @@ BEGIN
 	WHERE [UserID] = @UserId AND [TranslationID] = @TranslationId
 END
 
+CREATE PROCEDURE dbo.Votes_ReadAll
+AS
+BEGIN
+	SELECT * FROM [dbo].[Votes]
+END
+
 -- CRUD for Languages -----------------------------------------------------------
 
 CREATE PROCEDURE dbo.Languages_Add
@@ -363,7 +398,11 @@ BEGIN
 	WHERE [ID] = @Id 
 END
 
-
+CREATE PROCEDURE dbo.Languages_ReadAll
+AS
+BEGIN
+	SELECT * FROM [dbo].[Languages] 
+END
 
 
 -------------- DROP Statements --------------
@@ -402,6 +441,15 @@ END
 --DROP PROCEDURE dbo.Phrases_ReadById;  
 --DROP PROCEDURE dbo.Translations_ReadById;  
 --DROP PROCEDURE dbo.Votes_ReadById;  
+--GO  
+
+--DROP PROCEDURE dbo.Users_ReadAll;  
+--DROP PROCEDURE dbo.Projects_ReadAll;  
+--DROP PROCEDURE dbo.Languages_ReadAll;  
+--DROP PROCEDURE dbo.TargetLanguages_ReadAll;  
+--DROP PROCEDURE dbo.Phrases_ReadAll;  
+--DROP PROCEDURE dbo.Translations_ReadAll;  
+--DROP PROCEDURE dbo.Votes_ReadAll;  
 --GO  
 
 ---------------------------------------------
