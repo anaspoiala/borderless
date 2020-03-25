@@ -13,14 +13,14 @@ namespace Borderless.Model.Entities
         public List<Language> TargetLanguages { get; set; }
 
         public Project(Guid id,
-            Guid userID,
+            Guid userId,
             string name,
             string description,
             Language sourceLanguage,
             List<Language> targetLanguages)
         {
             ID = id;
-            UserID = userID;
+            UserID = userId;
             Name = name;
             Description = description;
             SourceLanguage = sourceLanguage;

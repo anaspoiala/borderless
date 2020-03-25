@@ -41,7 +41,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\DbStrings.cs" />
+    <Compile Include="Helpers\ModelConverter.cs" />
+    <Compile Include="LanguagesDAL.cs" />
+    <Compile Include="PhrasesDAL.cs" />
+    <Compile Include="ProjectsDAL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TranslationsDAL.cs" />
+    <Compile Include="UsersDAL.cs" />
+    <Compile Include="VotesDAL.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Borderless.Model\Borderless.Model.csproj">
