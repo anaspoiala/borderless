@@ -252,6 +252,16 @@ BEGIN
 	WHERE [ID] = @Id 
 END
 
+CREATE PROCEDURE dbo.Phrases_ReadByProjectId
+(
+	@ProjectId uniqueidentifier
+) 
+AS
+BEGIN
+	SELECT * FROM [dbo].[Phrases] 
+	WHERE [ProjectID] = @ProjectId 
+END
+
 CREATE PROCEDURE dbo.Phrases_ReadAll
 AS
 BEGIN
@@ -313,6 +323,27 @@ AS
 BEGIN
 	SELECT * FROM [dbo].[Translations] 
 	WHERE [ID] = @Id 
+END
+
+CREATE PROCEDURE dbo.Translations_ReadByPhraseId
+(
+	@PhraseId uniqueidentifier
+) 
+AS
+BEGIN
+	SELECT * FROM [dbo].[Translations] 
+	WHERE [PhraseID] = @PhraseId 
+END
+
+CREATE PROCEDURE dbo.Translations_ReadByPhraseIdAndLanguageId
+(
+	@PhraseId uniqueidentifier,
+	@LanguageId uniqueidentifier
+) 
+AS
+BEGIN
+	SELECT * FROM [dbo].[Translations] 
+	WHERE [PhraseID] = @PhraseId AND [LanguageID] = @LanguageId
 END
 
 CREATE PROCEDURE dbo.Translations_ReadAll
@@ -379,6 +410,16 @@ BEGIN
 	WHERE [UserID] = @UserId AND [TranslationID] = @TranslationId
 END
 
+CREATE PROCEDURE dbo.Votes_ReadByTranslationId
+(
+	@TranslationId uniqueidentifier
+) 
+AS
+BEGIN
+	SELECT * FROM [dbo].[Votes]
+	WHERE [TranslationID] = @TranslationId
+END
+
 CREATE PROCEDURE dbo.Votes_ReadAll
 AS
 BEGIN
@@ -435,8 +476,12 @@ END
 --DROP PROCEDURE dbo.TargetLanguages_ReadById;  
 --DROP PROCEDURE dbo.TargetLanguages_ReadByProjectId;  
 --DROP PROCEDURE dbo.Phrases_ReadById;  
+--DROP PROCEDURE dbo.Phrases_ReadByProjectId;
 --DROP PROCEDURE dbo.Translations_ReadById;  
---DROP PROCEDURE dbo.Votes_ReadById;  
+--DROP PROCEDURE dbo.Translations_ReadByPhraseId;
+--DROP PROCEDURE dbo.Translations_ReadByPhraseIdAndLanguageId;
+--DROP PROCEDURE dbo.Votes_ReadById; 
+--DROP PROCEDURE dbo.Votes_ReadByTranslationId;
 --GO  
 
 --DROP PROCEDURE dbo.Users_ReadAll;  
