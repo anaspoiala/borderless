@@ -182,6 +182,15 @@ BEGIN
 	SELECT * FROM [dbo].[TargetLanguages]
 END
 
+CREATE PROCEDURE [dbo].[TargetLanguages_ReadByProjectId]
+(
+	@ProjectId uniqueidentifier
+) 
+AS
+BEGIN
+	SELECT * FROM [dbo].[TargetLanguages]
+	WHERE [ProjectID] = @ProjectId
+END
 
 -- CRUD for Phrases -----------------------------------------------------------
 
@@ -351,43 +360,6 @@ END
 
 -- CRUD for Languages -----------------------------------------------------------
 
-CREATE PROCEDURE dbo.Languages_Add
-(
-	@Name varchar(50),
-	@Abbreviation varchar(50)
-) 
-AS
-BEGIN
-	INSERT INTO [Languages] ([ID] ,[Name] ,[Abbreviation])
-	VALUES
-	(NEWID(), @Name, @Abbreviation)
-END
-
-CREATE PROCEDURE dbo.Languages_Update
-(
-	@Id uniqueidentifier,
-	@Name varchar(50),
-	@Abbreviation varchar(50)
-) 
-AS
-BEGIN
-	UPDATE [dbo].[Languages]
-	SET 
-		[Name] = @Name
-		,[Abbreviation] = @Abbreviation
-	WHERE [ID] = @Id
-END
-
-CREATE PROCEDURE dbo.Languages_Delete
-(
-	@Id uniqueidentifier
-) 
-AS
-BEGIN
-	DELETE FROM [dbo].[Languages]
-	WHERE [ID] = @Id
-END
-
 CREATE PROCEDURE dbo.Languages_ReadById
 (
 	@Id uniqueidentifier
@@ -409,7 +381,6 @@ END
 
 --DROP PROCEDURE dbo.Users_Add;  
 --DROP PROCEDURE dbo.Projects_Add;  
---DROP PROCEDURE dbo.Languages_Add;  
 --DROP PROCEDURE dbo.TargetLanguages_Add;  
 --DROP PROCEDURE dbo.Phrases_Add;  
 --DROP PROCEDURE dbo.Translations_Add;  
@@ -418,7 +389,6 @@ END
 
 --DROP PROCEDURE dbo.Users_Update
 --DROP PROCEDURE dbo.Projects_Update
---DROP PROCEDURE dbo.Languages_Update
 --DROP PROCEDURE dbo.TargetLanguages_UpdateLanguage 
 --DROP PROCEDURE dbo.Phrases_UpdateText
 --DROP PROCEDURE dbo.Translations_UpdateText
@@ -427,7 +397,6 @@ END
 
 --DROP PROCEDURE dbo.Users_Delete;  
 --DROP PROCEDURE dbo.Projects_Delete;  
---DROP PROCEDURE dbo.Languages_Delete;  
 --DROP PROCEDURE dbo.TargetLanguages_Delete;  
 --DROP PROCEDURE dbo.Phrases_Delete;  
 --DROP PROCEDURE dbo.Translations_Delete;  
