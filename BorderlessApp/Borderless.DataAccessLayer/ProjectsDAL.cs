@@ -110,7 +110,7 @@ namespace Borderless.DataAccessLayer
         {
             var languagesDal = new LanguagesDAL();
             var guid = dataReader.GetGuid(dataReader.GetOrdinal("LanguageID"));
-            
+
             return languagesDal.ReadById(guid);
         }
     }
