@@ -13,9 +13,14 @@ CREATE PROCEDURE dbo.Users_Add
 ) 
 AS
 BEGIN
+	DECLARE @Id uniqueidentifier = NEWID();
+
 	INSERT INTO [Users] ([ID], [Username], [PasswordHash], [FirstName], [LastName], [Email])
 	VALUES 
-	(NEWID(), @Username, @PasswordHash, @FirstName, @LastName, @Email)
+	(@Id, @Username, @PasswordHash, @FirstName, @LastName, @Email)
+
+	SELECT * FROM [dbo].[Users] 
+	WHERE [ID] = @Id 
 END
 
 CREATE PROCEDURE dbo.Users_Update
@@ -37,6 +42,9 @@ BEGIN
 		,[LastName] = @LastName
 		,[Email] = @Email
 	WHERE [ID] = @Id
+
+	SELECT * FROM [dbo].[Users] 
+	WHERE [ID] = @Id 
 END
 
 CREATE PROCEDURE dbo.Users_Delete
@@ -76,9 +84,14 @@ CREATE PROCEDURE dbo.Projects_Add
 ) 
 AS
 BEGIN
+	DECLARE @Id uniqueidentifier = NEWID();
+
 	INSERT INTO [Projects] ([ID], [Name], [Description], [UserID], [SourceLanguageID])
 	VALUES
-	(NEWID(), @Name, @Description, @UserId, @SourceLanguageId)
+	(@Id, @Name, @Description, @UserId, @SourceLanguageId)
+
+	SELECT * FROM [dbo].[Projects] 
+	WHERE [ID] = @Id 
 END
 
 CREATE PROCEDURE dbo.Projects_Update
@@ -96,6 +109,9 @@ BEGIN
 		,[Description] = @Description
 		,[SourceLanguageID] = @SourceLanguageId
 	WHERE [ID] = @Id
+
+	SELECT * FROM [dbo].[Projects] 
+	WHERE [ID] = @Id 
 END
 
 CREATE PROCEDURE dbo.Projects_Delete
@@ -138,20 +154,9 @@ BEGIN
 	INSERT INTO [TargetLanguages] ([ProjectID], [LanguageID])
 	VALUES
 	(@ProjectId, @LanguageId)
-END
 
-
-CREATE PROCEDURE dbo.TargetLanguages_UpdateLanguage
-(
-	@ProjectId uniqueidentifier,
-	@LanguageId uniqueidentifier
-) 
-AS
-BEGIN
-	UPDATE [dbo].[TargetLanguages]
-	SET 
-		[LanguageID] = @LanguageId
-	WHERE [ProjectID] = @ProjectId
+	SELECT * FROM [dbo].[TargetLanguages]
+	WHERE [ProjectID] = @ProjectId AND [LanguageID] = @LanguageId
 END
 
 CREATE PROCEDURE dbo.TargetLanguages_Delete
@@ -201,9 +206,14 @@ CREATE PROCEDURE dbo.Phrases_Add
 ) 
 AS
 BEGIN
+	DECLARE @Id uniqueidentifier = NEWID();
+
 	INSERT INTO [dbo].[Phrases] ([ID], [Text], [ProjectID])
 	VALUES
-	(NEWID(), @Text, @ProjectId)
+	(@Id, @Text, @ProjectId)
+
+	SELECT * FROM [dbo].[Phrases] 
+	WHERE [ID] = @Id 
 END
 
 CREATE PROCEDURE dbo.Phrases_UpdateText
@@ -217,6 +227,9 @@ BEGIN
 	SET 
 		[Text] = @Text
 	WHERE [ID] = @Id
+
+	SELECT * FROM [dbo].[Phrases] 
+	WHERE [ID] = @Id 
 END
 
 CREATE PROCEDURE dbo.Phrases_Delete
@@ -256,9 +269,14 @@ CREATE PROCEDURE dbo.Translations_Add
 ) 
 AS
 BEGIN
+	DECLARE @Id uniqueidentifier = NEWID();
+
 	INSERT INTO [dbo].[Translations] ([ID], [Text], [PhraseID], [LanguageID], [UserID])
 	VALUES
-	(NEWID(), @Text, @PhraseId, @LanguageId, @UserId)
+	(@Id, @Text, @PhraseId, @LanguageId, @UserId)
+
+	SELECT * FROM [dbo].[Translations]
+	WHERE [ID] = @Id
 END
 
 CREATE PROCEDURE dbo.Translations_UpdateText
@@ -271,6 +289,9 @@ BEGIN
 	UPDATE [dbo].[Translations]
 	SET 
 		[Text] = @Text
+	WHERE [ID] = @Id
+
+	SELECT * FROM [dbo].[Translations]
 	WHERE [ID] = @Id
 END
 
@@ -314,6 +335,9 @@ BEGIN
 	INSERT INTO [dbo].[Votes] ([UserID], [TranslationID], [IsUpvote])
 	VALUES
 	(@UserId, @TranslationId, @IsUpvote)
+
+	SELECT * FROM [dbo].[Votes] v
+	WHERE v.UserID = @UserId AND v.TranslationID = @TranslationId
 END
 
 CREATE PROCEDURE dbo.Votes_UpdateIsUpvote
@@ -328,6 +352,9 @@ BEGIN
 	SET 
 		[IsUpvote] = @IsUpvote
 	WHERE [UserID] = @UserId AND [TranslationID] = @TranslationId
+
+	SELECT * FROM [dbo].[Votes] v
+	WHERE v.UserID = @UserId AND v.TranslationID = @TranslationId
 END
 
 CREATE PROCEDURE dbo.Votes_Delete
@@ -389,7 +416,6 @@ END
 
 --DROP PROCEDURE dbo.Users_Update
 --DROP PROCEDURE dbo.Projects_Update
---DROP PROCEDURE dbo.TargetLanguages_UpdateLanguage 
 --DROP PROCEDURE dbo.Phrases_UpdateText
 --DROP PROCEDURE dbo.Translations_UpdateText
 --DROP PROCEDURE dbo.Votes_UpdateIsUpvote
@@ -407,6 +433,7 @@ END
 --DROP PROCEDURE dbo.Projects_ReadById;  
 --DROP PROCEDURE dbo.Languages_ReadById;  
 --DROP PROCEDURE dbo.TargetLanguages_ReadById;  
+--DROP PROCEDURE dbo.TargetLanguages_ReadByProjectId;  
 --DROP PROCEDURE dbo.Phrases_ReadById;  
 --DROP PROCEDURE dbo.Translations_ReadById;  
 --DROP PROCEDURE dbo.Votes_ReadById;  
