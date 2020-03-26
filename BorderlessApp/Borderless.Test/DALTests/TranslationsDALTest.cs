@@ -10,7 +10,7 @@ namespace Borderless.Test.DALTests
     public class TranslationsDALTest
     {
         [TestMethod]
-        public void TranslationsDAL_CanReadAll()
+        public void CanReadAll()
         {
             var dal = new TranslationsDAL();
             var translations = dal.ReadAll();
@@ -19,7 +19,7 @@ namespace Borderless.Test.DALTests
         }
 
         [TestMethod]
-        public void TranslationsDAL_CanReadById()
+        public void CanReadById()
         {
             var dal = new TranslationsDAL();
             var id = new Guid("D7473354-ED42-4514-88C4-FF5FC778A4B0");
@@ -33,7 +33,7 @@ namespace Borderless.Test.DALTests
         }
 
         [TestMethod]
-        public void TranslationsDAL_CanReadByPhraseId()
+        public void CanReadByPhraseId()
         {
             var dal = new TranslationsDAL();
             var phraseId = new Guid("FA39EA0F-77E1-435A-BDDD-1C9C0F033D9B");
@@ -44,7 +44,7 @@ namespace Borderless.Test.DALTests
         }
 
         [TestMethod]
-        public void TranslationsDAL_CanReadByPhraseIdAndLanguageId()
+        public void CanReadByPhraseIdAndLanguageId()
         {
             var dal = new TranslationsDAL();
             var phraseId = new Guid("FA39EA0F-77E1-435A-BDDD-1C9C0F033D9B");

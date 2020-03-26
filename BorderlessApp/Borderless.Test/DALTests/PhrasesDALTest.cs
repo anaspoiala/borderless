@@ -10,7 +10,7 @@ namespace Borderless.Test.DALTests
     public class PhrasesDALTest
     {
         [TestMethod]
-        public void PhrasesDAL_CanReadAll()
+        public void CanReadAll()
         {
             var dal = new PhrasesDAL();
             var phrases = dal.ReadAll();
@@ -19,7 +19,7 @@ namespace Borderless.Test.DALTests
         }
 
         [TestMethod]
-        public void PhrasesDAL_CanReadById()
+        public void CanReadById()
         {
             var dal = new PhrasesDAL();
             var id = new Guid("2AD88467-8113-4F2E-9659-454C03B95329");
@@ -31,7 +31,7 @@ namespace Borderless.Test.DALTests
         }
 
         [TestMethod]
-        public void PhrasesDAL_CanReadByProjectId()
+        public void CanReadByProjectId()
         {
             var dal = new PhrasesDAL();
             var projectId = new Guid("2147B59C-B856-42A6-A811-63286354D7C9");

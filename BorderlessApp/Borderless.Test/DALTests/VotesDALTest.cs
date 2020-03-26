@@ -10,7 +10,7 @@ namespace Borderless.Test.DALTests
     public class VotesDALTest
     {
         [TestMethod]
-        public void VotesDAL_CanReadAll()
+        public void CanReadAll()
         {
             var dal = new VotesDAL();
             var votes = dal.ReadAll();
@@ -19,7 +19,7 @@ namespace Borderless.Test.DALTests
         }
 
         [TestMethod]
-        public void VotesDAL_CanReadById()
+        public void CanReadById()
         {
             var dal = new VotesDAL();
             var userId = new Guid("953D23D7-72D7-4C2A-9CC7-BF6FE8676094");
@@ -31,7 +31,7 @@ namespace Borderless.Test.DALTests
         }
 
         [TestMethod]
-        public void VotesDAL_CanReadByTranslationId()
+        public void CanReadByTranslationId()
         {
             var dal = new VotesDAL();
             var translationId = new Guid("BB6502D2-8608-4A64-8F11-9A04DB11F1CB");

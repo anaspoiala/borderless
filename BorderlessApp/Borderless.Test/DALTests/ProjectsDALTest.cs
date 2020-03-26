@@ -10,7 +10,7 @@ namespace Borderless.Test.DALTests
     public class ProjectsDALTest
     {
         [TestMethod]
-        public void ProjectsDAL_CanReadAll()
+        public void CanReadAll()
         {
             var dal = new ProjectsDAL();
             var projects = dal.ReadAll();
@@ -19,7 +19,7 @@ namespace Borderless.Test.DALTests
         }
 
         [TestMethod]
-        public void ProjectsDAL_CanReadById()
+        public void CanReadById()
         {
             var dal = new ProjectsDAL();
             var id = new Guid("2147B59C-B856-42A6-A811-63286354D7C9");
