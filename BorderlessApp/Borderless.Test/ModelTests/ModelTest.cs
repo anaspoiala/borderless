@@ -4,7 +4,7 @@ using Borderless.Model.Entities;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Borderless.Test
+namespace Borderless.Test.ModelTests
 {
     [TestClass]
     public class ModelTest
