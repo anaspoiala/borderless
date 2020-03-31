@@ -117,5 +117,79 @@ namespace Borderless.DataAccessLayer
 
             return result;
         }
+
+        public Translation Add(Translation translation)
+        {
+            using (var connection = new SqlConnection(DbStrings.CONNECTION_STRING))
+            {
+                connection.Open();
+
+                using (var command = new SqlCommand())
+                {
+                    command.Connection = connection;
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    command.CommandText = DbStrings.TRANSLATIONS_ADD;
+                    command.Parameters.Add(new SqlParameter("@Text", translation.Text));
+                    command.Parameters.Add(new SqlParameter("@PhraseId", translation.PhraseID));
+                    command.Parameters.Add(new SqlParameter("@LanguageId", translation.LanguageID));
+                    command.Parameters.Add(new SqlParameter("@UserId", translation.UserID));
+
+                    using (var dataReader = command.ExecuteReader())
+                    {
+                        if (dataReader.Read())
+                        {
+                            return ModelConverter.GetTranslation(dataReader);
+                        }
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        public Translation UpdateById(Guid id, Translation translation)
+        {
+            using (var connection = new SqlConnection(DbStrings.CONNECTION_STRING))
+            {
+                connection.Open();
+
+                using (var command = new SqlCommand())
+                {
+                    command.Connection = connection;
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    command.CommandText = DbStrings.TRANSLATIONS_UPDATE;
+                    command.Parameters.Add(new SqlParameter("@Id", id));
+                    command.Parameters.Add(new SqlParameter("@Text", translation.Text));
+
+                    using (var dataReader = command.ExecuteReader())
+                    {
+                        if (dataReader.Read())
+                        {
+                            return ModelConverter.GetTranslation(dataReader);
+                        }
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        public void DeleteById(Guid id)
+        {
+            using (var connection = new SqlConnection(DbStrings.CONNECTION_STRING))
+            {
+                connection.Open();
+
+                using (var command = new SqlCommand())
+                {
+                    command.Connection = connection;
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    command.CommandText = DbStrings.TRANSLATIONS_DELETE;
+                    command.Parameters.Add(new SqlParameter("@Id", id));
+                    
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
     }
 }

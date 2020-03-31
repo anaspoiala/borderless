@@ -42,5 +42,7 @@
         public const string LANGUAGES_READ_BY_ID = "dbo.Languages_ReadById";
 
         public const string TARGET_LANGUAGES_READ_ALL_BY_PROJECT_ID = "dbo.TargetLanguages_ReadByProjectId";
+        public const string TARGET_LANGUAGES_ADD = "dbo.TargetLanguages_Add";
+        public const string TARGET_LANGUAGES_DELETE = "dbo.TargetLanguages_Delete";
     }
 }

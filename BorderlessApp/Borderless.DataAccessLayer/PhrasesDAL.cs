@@ -89,5 +89,76 @@ namespace Borderless.DataAccessLayer
             return result;
         }
 
+        public Phrase Add(Phrase phrase)
+        {
+            using (var connection = new SqlConnection(DbStrings.CONNECTION_STRING))
+            {
+                connection.Open();
+
+                using (var command = new SqlCommand())
+                {
+                    command.Connection = connection;
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    command.CommandText = DbStrings.PHRASES_ADD;
+                    command.Parameters.Add(new SqlParameter("@Text", phrase.Text));
+                    command.Parameters.Add(new SqlParameter("@ProjectId", phrase.ProjectID));
+
+                    using (var dataReader = command.ExecuteReader())
+                    {
+                        if (dataReader.Read())
+                        {
+                            return ModelConverter.GetPhrase(dataReader);
+                        }
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        public Phrase UpdateById(Guid id, Phrase phrase)
+        {
+            using (var connection = new SqlConnection(DbStrings.CONNECTION_STRING))
+            {
+                connection.Open();
+
+                using (var command = new SqlCommand())
+                {
+                    command.Connection = connection;
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    command.CommandText = DbStrings.PHRASES_UPDATE;
+                    command.Parameters.Add(new SqlParameter("@Id", id));
+                    command.Parameters.Add(new SqlParameter("@Text", phrase.Text));
+
+                    using (var dataReader = command.ExecuteReader())
+                    {
+                        if (dataReader.Read())
+                        {
+                            return ModelConverter.GetPhrase(dataReader);
+                        }
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        public void DeleteById(Guid id)
+        {
+            using (var connection = new SqlConnection(DbStrings.CONNECTION_STRING))
+            {
+                connection.Open();
+
+                using (var command = new SqlCommand())
+                {
+                    command.Connection = connection;
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    command.CommandText = DbStrings.PHRASES_DELETE;
+                    command.Parameters.Add(new SqlParameter("@Id", id));
+
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
     }
 }

@@ -61,6 +61,79 @@ namespace Borderless.DataAccessLayer
             return null;
         }
 
+        public Project Add(Project project)
+        {
+            using (var connection = new SqlConnection(DbStrings.CONNECTION_STRING))
+            {
+                connection.Open();
+
+                using (var command = new SqlCommand())
+                {
+                    command.Connection = connection;
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    command.CommandText = DbStrings.PROJECTS_ADD;
+                    command.Parameters.Add(new SqlParameter("@Name", project.Name));
+                    command.Parameters.Add(new SqlParameter("@Description", project.Description));
+                    command.Parameters.Add(new SqlParameter("@UserId", project.UserID));
+                    command.Parameters.Add(new SqlParameter("@SourceLanguageId", project.SourceLanguage.ID));
+
+                    using (var dataReader = command.ExecuteReader())
+                    {
+                        if (dataReader.Read())
+                        {
+                            return ModelConverter.GetProject(dataReader);
+                        }
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        public Project UpdateById(Guid projectId, Project project)
+        {
+            using (var connection = new SqlConnection(DbStrings.CONNECTION_STRING))
+            {
+                connection.Open();
+
+                using (var command = new SqlCommand())
+                {
+                    command.Connection = connection;
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    command.CommandText = DbStrings.PROJECTS_UPDATE;
+                    command.Parameters.Add(new SqlParameter("@Id", projectId));
+
+                    using (var dataReader = command.ExecuteReader())
+                    {
+                        if (dataReader.Read())
+                        {
+                            return ModelConverter.GetProject(dataReader);
+                        }
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        public void DeleteById(Guid projectId)
+        {
+            using (var connection = new SqlConnection(DbStrings.CONNECTION_STRING))
+            {
+                connection.Open();
+
+                using (var command = new SqlCommand())
+                {
+                    command.Connection = connection;
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    command.CommandText = DbStrings.PROJECTS_DELETE;
+                    command.Parameters.Add(new SqlParameter("@Id", projectId));
+
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
         private Project GetProjectWithLanguages(SqlDataReader dataReader)
         {
             var project = ModelConverter.GetProject(dataReader);
@@ -70,7 +143,7 @@ namespace Borderless.DataAccessLayer
             return project;
         }
 
-        private static Language GetSourceLanguage(SqlDataReader dataReader)
+        private Language GetSourceLanguage(SqlDataReader dataReader)
         {
             var languageDAL = new LanguagesDAL();
             var sourceLanguageId = dataReader.GetGuid(dataReader.GetOrdinal("SourceLanguageID"));
@@ -106,7 +179,7 @@ namespace Borderless.DataAccessLayer
             return result;
         }
 
-        private static Language GetLanguageFromTargetLanguage(SqlDataReader dataReader)
+        private Language GetLanguageFromTargetLanguage(SqlDataReader dataReader)
         {
             var languagesDal = new LanguagesDAL();
             var guid = dataReader.GetGuid(dataReader.GetOrdinal("LanguageID"));

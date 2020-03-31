@@ -91,7 +91,7 @@ namespace Borderless.DataAccessLayer
             return null;
         }
 
-        public User UpdateById(Guid userId, User user)
+        public User UpdateById(Guid id, User user)
         {
             using (var connection = new SqlConnection(DbStrings.CONNECTION_STRING))
             {
@@ -102,7 +102,7 @@ namespace Borderless.DataAccessLayer
                     command.Connection = connection;
                     command.CommandType = System.Data.CommandType.StoredProcedure;
                     command.CommandText = DbStrings.USERS_UPDATE;
-                    command.Parameters.Add(new SqlParameter("@Id", userId));
+                    command.Parameters.Add(new SqlParameter("@Id", id));
                     command.Parameters.Add(new SqlParameter("@Username", user.Username));
                     command.Parameters.Add(new SqlParameter("@PasswordHash", user.PasswordHash));
                     command.Parameters.Add(new SqlParameter("@FirstName", user.FirstName));
@@ -122,7 +122,7 @@ namespace Borderless.DataAccessLayer
             return null;
         }
 
-        public void DeleteById(Guid userId)
+        public void DeleteById(Guid id)
         {
             using (var connection = new SqlConnection(DbStrings.CONNECTION_STRING))
             {
@@ -133,7 +133,7 @@ namespace Borderless.DataAccessLayer
                     command.Connection = connection;
                     command.CommandType = System.Data.CommandType.StoredProcedure;
                     command.CommandText = DbStrings.USERS_DELETE;
-                    command.Parameters.Add(new SqlParameter("@Id", userId));
+                    command.Parameters.Add(new SqlParameter("@Id", id));
 
                     command.ExecuteNonQuery();
                 }
