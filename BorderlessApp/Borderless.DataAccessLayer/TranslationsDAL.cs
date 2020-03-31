@@ -118,6 +118,34 @@ namespace Borderless.DataAccessLayer
             return result;
         }
 
+        public List<Translation> ReadByUserId(Guid userId)
+        {
+            var result = new List<Translation>();
+
+            using (var connection = new SqlConnection(DbStrings.CONNECTION_STRING))
+            {
+                connection.Open();
+
+                using (var command = new SqlCommand())
+                {
+                    command.Connection = connection;
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    command.CommandText = DbStrings.TRANSLATIONS_READ_BY_USER_ID;
+                    command.Parameters.Add(new SqlParameter("@UserId", userId));
+
+                    using (var dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            result.Add(ModelConverter.GetTranslation(dataReader));
+                        }
+                    }
+                }
+            }
+
+            return result;
+        }
+
         public Translation Add(Translation translation)
         {
             using (var connection = new SqlConnection(DbStrings.CONNECTION_STRING))
@@ -176,6 +204,10 @@ namespace Borderless.DataAccessLayer
 
         public void DeleteById(Guid id)
         {
+            // First delete Votes 
+            DeleteVotes(id);
+
+            // Then delete the Translation
             using (var connection = new SqlConnection(DbStrings.CONNECTION_STRING))
             {
                 connection.Open();
@@ -189,6 +221,17 @@ namespace Borderless.DataAccessLayer
                     
                     command.ExecuteNonQuery();
                 }
+            }
+        }
+
+        private void DeleteVotes(Guid translationId)
+        {
+            var votesDAL = new VotesDAL();
+            var votes = votesDAL.ReadByTranslationId(translationId);
+
+            foreach(var vote in votes)
+            {
+                votesDAL.DeleteById(vote.UserID, translationId);
             }
         }
     }

@@ -26,7 +26,7 @@ namespace Borderless.DataAccessLayer
                     {
                         while (dataReader.Read())
                         {
-                            result.Add(GetProjectWithLanguages(dataReader));
+                            result.Add(GetProjectWithSourceAndTargetLanguages(dataReader));
                         }
                     }
                 }
@@ -52,7 +52,7 @@ namespace Borderless.DataAccessLayer
                     {
                         if (dataReader.Read())
                         {
-                            return GetProjectWithLanguages(dataReader);
+                            return GetProjectWithSourceAndTargetLanguages(dataReader);
                         }
                     }
                 }
@@ -61,8 +61,38 @@ namespace Borderless.DataAccessLayer
             return null;
         }
 
+        public List<Project> ReadByUserId(Guid userId)
+        {
+            var result = new List<Project>();
+
+            using (var connection = new SqlConnection(DbStrings.CONNECTION_STRING))
+            {
+                connection.Open();
+
+                using (var command = new SqlCommand())
+                {
+                    command.Connection = connection;
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    command.CommandText = DbStrings.PROJECTS_READ_BY_USER_ID;
+                    command.Parameters.Add(new SqlParameter("@UserId", userId));
+
+                    using (var dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            result.Add(GetProjectWithSourceAndTargetLanguages(dataReader));
+                        }
+                    }
+                }
+            }
+
+            return result;
+        }
+
         public Project Add(Project project)
         {
+            Project addedProject = null;
+
             using (var connection = new SqlConnection(DbStrings.CONNECTION_STRING))
             {
                 connection.Open();
@@ -81,13 +111,15 @@ namespace Borderless.DataAccessLayer
                     {
                         if (dataReader.Read())
                         {
-                            return ModelConverter.GetProject(dataReader);
+                            addedProject = ModelConverter.GetProject(dataReader);
+                            AddTargetLanguages(project.TargetLanguages, addedProject.ID);
+                            addedProject = GetProjectWithSourceAndTargetLanguages(dataReader);
                         }
                     }
                 }
             }
 
-            return null;
+            return addedProject;
         }
 
         public Project UpdateById(Guid projectId, Project project)
@@ -102,12 +134,17 @@ namespace Borderless.DataAccessLayer
                     command.CommandType = System.Data.CommandType.StoredProcedure;
                     command.CommandText = DbStrings.PROJECTS_UPDATE;
                     command.Parameters.Add(new SqlParameter("@Id", projectId));
+                    command.Parameters.Add(new SqlParameter("@Name", project.Name));
+                    command.Parameters.Add(new SqlParameter("@Description", project.Description));
+                    command.Parameters.Add(new SqlParameter("@SourceLanguageId", project.SourceLanguage.ID));
 
                     using (var dataReader = command.ExecuteReader())
                     {
                         if (dataReader.Read())
                         {
-                            return ModelConverter.GetProject(dataReader);
+                            DeleteTargetLanguagesByProjectId(projectId);
+                            AddTargetLanguages(project.TargetLanguages, projectId);
+                            return GetProjectWithSourceAndTargetLanguages(dataReader);
                         }
                     }
                 }
@@ -118,6 +155,10 @@ namespace Borderless.DataAccessLayer
 
         public void DeleteById(Guid projectId)
         {
+            // First delete all Phrases of the given project.
+            DeletePhrases(projectId);
+
+            // Then delete the Project and TargetLanguages
             using (var connection = new SqlConnection(DbStrings.CONNECTION_STRING))
             {
                 connection.Open();
@@ -129,21 +170,27 @@ namespace Borderless.DataAccessLayer
                     command.CommandText = DbStrings.PROJECTS_DELETE;
                     command.Parameters.Add(new SqlParameter("@Id", projectId));
 
+                    DeleteTargetLanguagesByProjectId(projectId);
+
                     command.ExecuteNonQuery();
                 }
             }
         }
 
-        private Project GetProjectWithLanguages(SqlDataReader dataReader)
+        /// <summary>
+        /// Converts the result from the SqlDataReader into a Project, 
+        /// retrieves its SourceLanguage and list of TargetLanguages and returns it.
+        /// </summary>
+        private Project GetProjectWithSourceAndTargetLanguages(SqlDataReader dataReader)
         {
             var project = ModelConverter.GetProject(dataReader);
-            project.SourceLanguage = GetSourceLanguage(dataReader);
-            project.TargetLanguages = ReadAllTargetLanguagesByProjectId(project.ID);
+            project.SourceLanguage = GetSourceLanguageFromDataReader(dataReader);
+            project.TargetLanguages = ReadTargetLanguagesByProjectId(project.ID);
 
             return project;
         }
 
-        private Language GetSourceLanguage(SqlDataReader dataReader)
+        private Language GetSourceLanguageFromDataReader(SqlDataReader dataReader)
         {
             var languageDAL = new LanguagesDAL();
             var sourceLanguageId = dataReader.GetGuid(dataReader.GetOrdinal("SourceLanguageID"));
@@ -151,10 +198,9 @@ namespace Borderless.DataAccessLayer
             return sourceLanguage;
         }
 
-        private List<Language> ReadAllTargetLanguagesByProjectId(Guid projectId)
+        private List<Language> ReadTargetLanguagesByProjectId(Guid projectId)
         {
             var result = new List<Language>();
-
             using (var connection = new SqlConnection(DbStrings.CONNECTION_STRING))
             {
                 connection.Open();
@@ -168,23 +214,69 @@ namespace Borderless.DataAccessLayer
 
                     using (var dataReader = command.ExecuteReader())
                     {
+                        var languagesDal = new LanguagesDAL();
+
                         while (dataReader.Read())
                         {
-                            result.Add(GetLanguageFromTargetLanguage(dataReader));
+                            var guid = dataReader.GetGuid(dataReader.GetOrdinal("LanguageID"));
+                            result.Add(languagesDal.ReadById(guid));
                         }
                     }
                 }
             }
-
             return result;
         }
 
-        private Language GetLanguageFromTargetLanguage(SqlDataReader dataReader)
+        private void AddTargetLanguages(List<Language> targetLanguages, Guid projectId)
         {
-            var languagesDal = new LanguagesDAL();
-            var guid = dataReader.GetGuid(dataReader.GetOrdinal("LanguageID"));
+            using (var connection = new SqlConnection(DbStrings.CONNECTION_STRING))
+            {
+                connection.Open();
 
-            return languagesDal.ReadById(guid);
+                foreach (var targetLanguage in targetLanguages)
+                {
+                    using (var command = new SqlCommand())
+                    {
+                        command.Connection = connection;
+                        command.CommandType = System.Data.CommandType.StoredProcedure;
+                        command.CommandText = DbStrings.TARGET_LANGUAGES_ADD;
+                        command.Parameters.Add(new SqlParameter("@ProjectId", projectId));
+                        command.Parameters.Add(new SqlParameter("@LanguageId", targetLanguage.ID));
+
+                        command.ExecuteNonQuery();
+                    }
+                }
+            }
         }
+
+        private void DeleteTargetLanguagesByProjectId(Guid projectId)
+        {
+            using (var connection = new SqlConnection(DbStrings.CONNECTION_STRING))
+            {
+                connection.Open();
+
+                using (var command = new SqlCommand())
+                {
+                    command.Connection = connection;
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    command.CommandText = DbStrings.TARGET_LANGUAGES_DELETE_BY_PROJECT_ID;
+                    command.Parameters.Add(new SqlParameter("@ProjectId", projectId));
+
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
+        private void DeletePhrases(Guid projectId)
+        {
+            var phrasesDAL = new PhrasesDAL();
+            var phrasesInThisProject = phrasesDAL.ReadByProjectId(projectId);
+
+            foreach (var phrase in phrasesInThisProject)
+            {
+                phrasesDAL.DeleteById(phrase.ID);
+            }
+        }
+
     }
 }

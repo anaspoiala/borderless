@@ -1,4 +1,5 @@
-﻿using System.Data.SqlClient;
+﻿using System.Collections.Generic;
+using System.Data.SqlClient;
 using Borderless.Model.Entities;
 
 namespace Borderless.DataAccessLayer.Helpers
@@ -34,7 +35,7 @@ namespace Borderless.DataAccessLayer.Helpers
                 dataReader.GetString(dataReader.GetOrdinal("Name")),
                 dataReader.GetString(dataReader.GetOrdinal("Description")),
                 null,
-                null
+                new List<Language>()
             );
         }
 

@@ -59,6 +59,19 @@ namespace Borderless.Test.DALTests
         }
 
         [TestMethod]
+        public void CanReadByUserId()
+        {
+            using (var data = new DbTestData())
+            {
+                var userId = data.user1.ID;
+                var votes = dal.ReadByUserId(userId);
+
+                votes.Should().NotBeNullOrEmpty();
+                votes.Should().HaveCount(1);
+            }
+        }
+
+        [TestMethod]
         public void CanAdd()
         {
             using (var data = new DbTestData())

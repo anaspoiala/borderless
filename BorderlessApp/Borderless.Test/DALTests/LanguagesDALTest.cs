@@ -9,10 +9,17 @@ namespace Borderless.Test.DALTests
     [TestClass]
     public class LanguagesDALTest
     {
+        private static LanguagesDAL dal;
+
+        [ClassInitialize]
+        public static void Init(TestContext context)
+        {
+            dal = new LanguagesDAL();
+        }
+
         [TestMethod]
         public void CanReadAll()
         {
-            var dal = new LanguagesDAL();
             var languages = dal.ReadAll();
 
             languages.Should().NotBeNullOrEmpty();
@@ -21,13 +28,28 @@ namespace Borderless.Test.DALTests
         [TestMethod]
         public void CanReadById()
         {
-            var dal = new LanguagesDAL();
-            var id = new Guid("24653028-8AE0-47FE-B4B5-046C904C56DE");
-            var language = dal.ReadById(id);
+            using (var data = new DbTestData())
+            {
+                var id = data.language2.ID;
+                var language = dal.ReadById(id);
 
-            language.Should().NotBeNull();
-            language.Name.Should().Be("German");
-            language.Abbreviation.Should().Be("de");
+                language.Should().NotBeNull();
+                language.Name.Should().Be("German");
+                language.Abbreviation.Should().Be("de");
+            }
+        }
+
+        [TestMethod]
+        public void CanReadByName()
+        {
+            using (var data = new DbTestData())
+            {
+                var language = dal.ReadByName("English");
+
+                language.Should().NotBeNull();
+                language.Name.Should().Be("English");
+                language.Abbreviation.Should().Be("en");
+            }
         }
     }
 }

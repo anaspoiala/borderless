@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Borderless.DataAccessLayer;
+using Borderless.Model.Entities;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -9,37 +10,107 @@ namespace Borderless.Test.DALTests
     [TestClass]
     public class PhrasesDALTest
     {
+        private static PhrasesDAL dal;
+
+        [ClassInitialize]
+        public static void Init(TestContext context)
+        {
+            dal = new PhrasesDAL();
+        }
+
         [TestMethod]
         public void CanReadAll()
         {
-            var dal = new PhrasesDAL();
-            var phrases = dal.ReadAll();
+            using (var data = new DbTestData())
+            {
+                var phrases = dal.ReadAll();
 
-            phrases.Should().NotBeNullOrEmpty();
+                phrases.Should().NotBeNullOrEmpty();
+                phrases.Should().HaveCountGreaterOrEqualTo(2);
+            }
         }
 
         [TestMethod]
         public void CanReadById()
         {
-            var dal = new PhrasesDAL();
-            var id = new Guid("2AD88467-8113-4F2E-9659-454C03B95329");
-            var phrase = dal.ReadById(id);
+            using (var data = new DbTestData())
+            {
+                var id = data.phrase1.ID;
+                var phrase = dal.ReadById(id);
 
-            phrase.Should().NotBeNull();
-            phrase.Text.Should().Be("a pained expression");
-            phrase.ProjectID.Should().Be(new Guid("2147B59C-B856-42A6-A811-63286354D7C9"));
+                phrase.Should().NotBeNull();
+                phrase.Text.Should().Be(data.phrase1.Text);
+                phrase.ProjectID.Should().Be(data.phrase1.ProjectID);
+            }
         }
 
         [TestMethod]
         public void CanReadByProjectId()
         {
-            var dal = new PhrasesDAL();
-            var projectId = new Guid("2147B59C-B856-42A6-A811-63286354D7C9");
-            var phrases = dal.ReadByProjectId(projectId);
+            using (var data = new DbTestData())
+            {
+                var projectId = data.project1.ID;
+                var phrases = dal.ReadByProjectId(projectId);
 
-            phrases.Should().NotBeNullOrEmpty();
-            phrases.Should().HaveCount(6);
-            phrases.Where(p => p.Text == "a pained expression").Should().NotBeNullOrEmpty();
+                phrases.Should().NotBeNullOrEmpty();
+                phrases.Should().HaveCount(1);
+            }
         }
+
+        [TestMethod]
+        public void CanAdd()
+        {
+            using (var data = new DbTestData())
+            {
+                Guid projectId = data.project1.ID;
+                var phrase = new Phrase(Guid.Empty, projectId, "test phrase");
+
+                var newPhrase = dal.Add(phrase);
+
+                newPhrase.Should().NotBeNull();
+                newPhrase.ID.Should().NotBe(Guid.Empty);
+                newPhrase.Text.Should().Be("test phrase");
+                newPhrase.ProjectID.Should().Be(projectId);
+
+                dal.DeleteById(newPhrase.ID);
+            }
+        }
+
+        [TestMethod]
+        public void CanUpdate()
+        {
+            using (var data = new DbTestData())
+            {
+                var phrase = data.phrase1;
+                phrase.Text = "updated";
+
+                var updatedPhrase = dal.UpdateById(phrase.ID, phrase);
+
+                updatedPhrase.Should().NotBeNull();
+                updatedPhrase.ID.Should().Be(phrase.ID);
+                updatedPhrase.Text.Should().Be("updated");
+                updatedPhrase.ProjectID.Should().Be(phrase.ProjectID);
+            }
+        }
+
+        [TestMethod]
+        public void CanDelete()
+        {
+            using (var data = new DbTestData())
+            {
+                var translationsDAL = new TranslationsDAL();
+                var phraseId = data.phrase1.ID;
+
+                dal.ReadById(phraseId).Should().NotBeNull();
+                translationsDAL.ReadByPhraseId(phraseId).Should().NotBeEmpty();
+
+                dal.DeleteById(phraseId);
+
+                dal.ReadById(phraseId).Should().BeNull();
+                translationsDAL.ReadByPhraseId(phraseId).Should().BeEmpty();
+            }
+        }
+
+
     }
 }

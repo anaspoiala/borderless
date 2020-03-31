@@ -145,6 +145,10 @@ namespace Borderless.DataAccessLayer
 
         public void DeleteById(Guid id)
         {
+            // First delete Translations
+            DeleteTranslations(id);
+
+            // Then delete the Phrase
             using (var connection = new SqlConnection(DbStrings.CONNECTION_STRING))
             {
                 connection.Open();
@@ -158,6 +162,17 @@ namespace Borderless.DataAccessLayer
 
                     command.ExecuteNonQuery();
                 }
+            }
+        }
+
+        private void DeleteTranslations(Guid phraseId)
+        {
+            var translationsDAL = new TranslationsDAL();
+            var translations = translationsDAL.ReadByPhraseId(phraseId);
+
+            foreach(var translation in translations)
+            {
+                translationsDAL.DeleteById(translation.ID);
             }
         }
     }

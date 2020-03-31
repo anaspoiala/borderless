@@ -21,63 +21,104 @@ namespace Borderless.Test.DALTests
         [TestMethod]
         public void CanReadAll()
         {
-            var users = dal.ReadAll();
+            using (var data = new DbTestData())
+            {
+                var users = dal.ReadAll();
 
-            users.Should().NotBeNullOrEmpty();
+                users.Should().NotBeNullOrEmpty();
+                users.Should().HaveCountGreaterOrEqualTo(2);
+            }
         }
 
         [TestMethod]
         public void CanReadById()
         {
-            var id = new Guid("53EAE69B-9343-4370-9BDF-484C8BBEFF0E");
-            var user = dal.ReadById(id);
+            using (var data = new DbTestData())
+            {
+                var id = data.user1.ID;
+                var user = dal.ReadById(id);
 
-            user.Should().NotBeNull();
-            user.Username.Should().Be("AnnikaRice");
-            user.FirstName.Should().Be("Annika");
-            user.LastName.Should().Be("Rice");
+                user.Should().NotBeNull();
+                user.Username.Should().Be(data.user1.Username);
+                user.FirstName.Should().Be(data.user1.FirstName);
+                user.LastName.Should().Be(data.user1.LastName);
+            }
         }
 
         [TestMethod]
-        public void CanAddUpdateAndDelete()
+        public void CanAdd()
         {
-            var dummy = new User(
-                Guid.Empty,
-                "DummyUser",
-                "8ee2027983915ec78acc45027d874316",
-                "Dummy",
-                "User",
-                "DummyUser@email.com"
-            );
+            using (var data = new DbTestData())
+            {
+                var user = new User(
+                    Guid.Empty,
+                    "AddedUser",
+                    "8ee2027983915ec78acc45027d874316",
+                    "Added",
+                    "User",
+                    "AddedUser@email.com"
+                );
 
-            // Add
-            var newUser = dal.Add(dummy);
-            var id = newUser.ID;
+                var newUser = dal.Add(user);
 
-            newUser.Should().NotBeNull();
-            newUser.ID.Should().NotBe(Guid.Empty);
-            newUser.Username.Should().Be("DummyUser");
-            newUser.FirstName.Should().Be("Dummy"); 
-            newUser.LastName.Should().Be("User"); 
-            newUser.PasswordHash.Should().Be("8ee2027983915ec78acc45027d874316"); 
-            newUser.Email.Should().Be("DummyUser@email.com");
+                newUser.Should().NotBeNull();
+                newUser.ID.Should().NotBe(Guid.Empty);
+                newUser.Username.Should().Be("AddedUser");
+                newUser.FirstName.Should().Be("Added");
+                newUser.LastName.Should().Be("User");
+                newUser.PasswordHash.Should().Be("8ee2027983915ec78acc45027d874316");
+                newUser.Email.Should().Be("AddedUser@email.com");
 
-            // Update
-            dummy.Username = "DummyUserChanged";
-            var updateUser = dal.UpdateById(id, dummy);
+                dal.DeleteById(newUser.ID);
+            }
+        }
 
-            updateUser.Should().NotBeNull();
-            updateUser.ID.Should().Be(id);
-            updateUser.Username.Should().Be("DummyUserChanged");
-            updateUser.FirstName.Should().Be("Dummy");
-            updateUser.LastName.Should().Be("User");
-            updateUser.PasswordHash.Should().Be("8ee2027983915ec78acc45027d874316");
-            updateUser.Email.Should().Be("DummyUser@email.com");
+        [TestMethod]
+        public void CanUpdate()
+        {
+            using (var data = new DbTestData())
+            {
+                var user = data.user1;
+                user.FirstName = "Updated";
 
-            // Delete
-            dal.DeleteById(id);
+                dal.ReadById(user.ID).Should().NotBeNull();
 
-            dal.ReadById(id).Should().BeNull();
+                var updatedUser = dal.UpdateById(user.ID, user);
+
+                dal.ReadById(user.ID).Should().NotBeNull();
+                updatedUser.Should().NotBeNull();
+                updatedUser.ID.Should().Be(data.user1.ID);
+                updatedUser.Username.Should().Be(user.Username);
+                updatedUser.FirstName.Should().Be("Updated");
+                updatedUser.LastName.Should().Be(user.LastName);
+                updatedUser.PasswordHash.Should().Be(user.PasswordHash);
+                updatedUser.Email.Should().Be(user.Email);
+            }
+        }
+
+        [TestMethod]
+        public void CanDelete()
+        {
+            using (var data = new DbTestData())
+            {
+                var projectsDAL = new ProjectsDAL();
+                var translationsDAL = new TranslationsDAL();
+                var votesDAL = new VotesDAL();
+                var user = data.user1;
+
+                dal.ReadById(user.ID).Should().NotBeNull();
+                projectsDAL.ReadByUserId(user.ID).Should().NotBeEmpty();
+                translationsDAL.ReadByUserId(user.ID).Should().NotBeEmpty();
+                votesDAL.ReadByUserId(user.ID).Should().NotBeEmpty();
+
+                dal.DeleteById(user.ID);
+
+                dal.ReadById(user.ID).Should().BeNull();
+                projectsDAL.ReadByUserId(user.ID).Should().BeEmpty();
+                translationsDAL.ReadByUserId(user.ID).Should().BeEmpty();
+                votesDAL.ReadByUserId(user.ID).Should().BeEmpty();
+
+            }
         }
 
 

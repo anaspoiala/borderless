@@ -31,14 +31,13 @@ namespace Borderless.Test
         {
             InitDAL();
 
-            InitUsers();
             InitLanguages();
+            InitUsers();
             InitProjects();
             InitPhrases();
             InitTranslations();
             InitVotes();
         }
-
 
         public void Dispose()
         {
@@ -48,7 +47,6 @@ namespace Borderless.Test
             DisposeProjects();
             DisposeUsers();
         }
-
 
         private void InitDAL()
         {
@@ -68,8 +66,8 @@ namespace Borderless.Test
 
         private void InitLanguages()
         {
-            language1 = _languagesDAL.ReadById(new Guid("459A4220-416C-4100-B608-6EEDD49E8E91"));  // english
-            language2 = _languagesDAL.ReadById(new Guid("24653028-8AE0-47FE-B4B5-046C904C56DE"));  // german
+            language1 = _languagesDAL.ReadByName("English");
+            language2 = _languagesDAL.ReadByName("German");
         }
 
         private void InitProjects()

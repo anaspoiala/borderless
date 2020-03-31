@@ -124,6 +124,12 @@ namespace Borderless.DataAccessLayer
 
         public void DeleteById(Guid id)
         {
+            // First delete Projects, Translations and Votes
+            DeleteProjects(id);
+            DeleteTranslations(id);
+            DeleteVotes(id);
+
+            // Then delete the User
             using (var connection = new SqlConnection(DbStrings.CONNECTION_STRING))
             {
                 connection.Open();
@@ -139,6 +145,40 @@ namespace Borderless.DataAccessLayer
                 }
             }
         }
+
+        private void DeleteProjects(Guid userId)
+        {
+            var projectsDAL = new ProjectsDAL();
+            var projects = projectsDAL.ReadByUserId(userId);
+
+            foreach (var project in projects)
+            {
+                projectsDAL.DeleteById(project.ID);
+            }
+        }
+
+        private void DeleteTranslations(Guid userId)
+        {
+            var translationsDAL = new TranslationsDAL();
+            var translations = translationsDAL.ReadByUserId(userId);
+
+            foreach (var translation in translations)
+            {
+                translationsDAL.DeleteById(translation.ID);
+            }
+        }
+
+        private void DeleteVotes(Guid userId)
+        {
+            var votesDAL = new VotesDAL();
+            var votes = votesDAL.ReadByUserId(userId);
+
+            foreach(var vote in votes)
+            {
+                votesDAL.DeleteById(vote.UserID, vote.TranslationID);
+            }
+        }
+
 
     }
 }

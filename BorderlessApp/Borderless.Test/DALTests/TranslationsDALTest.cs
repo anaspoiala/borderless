@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Borderless.DataAccessLayer;
+using Borderless.Model.Entities;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -9,50 +10,140 @@ namespace Borderless.Test.DALTests
     [TestClass]
     public class TranslationsDALTest
     {
+        private static TranslationsDAL dal;
+
+        [ClassInitialize]
+        public static void Init(TestContext context)
+        {
+            dal = new TranslationsDAL();
+        }
+
         [TestMethod]
         public void CanReadAll()
         {
-            var dal = new TranslationsDAL();
-            var translations = dal.ReadAll();
+            using (var data = new DbTestData())
+            {
+                var translations = dal.ReadAll();
 
-            translations.Should().NotBeNullOrEmpty();
+                translations.Should().NotBeNullOrEmpty();
+                translations.Should().HaveCountGreaterOrEqualTo(2);
+            }
         }
 
         [TestMethod]
         public void CanReadById()
         {
-            var dal = new TranslationsDAL();
-            var id = new Guid("D7473354-ED42-4514-88C4-FF5FC778A4B0");
-            var translation = dal.ReadById(id);
+            using (var data = new DbTestData())
+            {
+                var id = data.translation1.ID;
+                var translation = dal.ReadById(id);
 
-            translation.Should().NotBeNull();
-            translation.Text.Should().Be("suono tintinnante");
-            translation.PhraseID.Should().Be(new Guid("FA39EA0F-77E1-435A-BDDD-1C9C0F033D9B"));
-            translation.LanguageID.Should().Be(new Guid("B762AA7A-F41E-4121-9CA2-5D8B9F438C5D"));
-            translation.UserID.Should().Be(new Guid("D5300870-9046-42C4-A060-044DD318E313"));
+                translation.Should().NotBeNull();
+                translation.Text.Should().Be(data.translation1.Text);
+                translation.PhraseID.Should().Be(data.translation1.PhraseID);
+                translation.LanguageID.Should().Be(data.translation1.LanguageID);
+                translation.UserID.Should().Be(data.translation1.UserID);
+            }
         }
 
         [TestMethod]
         public void CanReadByPhraseId()
         {
-            var dal = new TranslationsDAL();
-            var phraseId = new Guid("FA39EA0F-77E1-435A-BDDD-1C9C0F033D9B");
-            var translations = dal.ReadByPhraseId(phraseId);
+            using (var data = new DbTestData())
+            {
+                var phraseId = data.phrase1.ID;
+                var translations = dal.ReadByPhraseId(phraseId);
 
-            translations.Should().NotBeNullOrEmpty();
-            translations.Should().HaveCount(3);
+                translations.Should().NotBeNullOrEmpty();
+                translations.Should().HaveCount(1);
+            }
         }
 
         [TestMethod]
         public void CanReadByPhraseIdAndLanguageId()
         {
-            var dal = new TranslationsDAL();
-            var phraseId = new Guid("FA39EA0F-77E1-435A-BDDD-1C9C0F033D9B");
-            var languageId = new Guid("B762AA7A-F41E-4121-9CA2-5D8B9F438C5D");
-            var translations = dal.ReadByPhraseIdAndLanguageId(phraseId, languageId);
+            using (var data = new DbTestData())
+            {
+                var phraseId = data.phrase1.ID;
+                var languageId = data.language2.ID;
+                var translations = dal.ReadByPhraseIdAndLanguageId(phraseId, languageId);
 
-            translations.Should().NotBeNullOrEmpty();
-            translations.Should().HaveCount(2);
+                translations.Should().NotBeNullOrEmpty();
+                translations.Should().HaveCount(1);
+            }
         }
+
+        [TestMethod]
+        public void CanReadByUserId()
+        {
+            using (var data = new DbTestData())
+            {
+                var userId = data.user1.ID;
+                var translations = dal.ReadByUserId(userId);
+
+                translations.Should().NotBeNullOrEmpty();
+                translations.Should().HaveCount(1);
+            }
+        }
+
+        [TestMethod]
+        public void CanAdd()
+        {
+            using (var data = new DbTestData())
+            {
+                var userId = data.user1.ID;
+                var phraseId = data.phrase1.ID;
+                var languageId = data.language2.ID;
+                var translation = new Translation(Guid.Empty, "added translation", phraseId, languageId, userId);
+
+                var newTranslation = dal.Add(translation);
+
+                newTranslation.Should().NotBeNull();
+                newTranslation.ID.Should().NotBe(Guid.Empty);
+                newTranslation.Text.Should().Be("added translation");
+                newTranslation.PhraseID.Should().Be(phraseId);
+                newTranslation.LanguageID.Should().Be(languageId);
+                newTranslation.UserID.Should().Be(userId);
+
+                dal.DeleteById(newTranslation.ID);
+            }
+        }
+
+        [TestMethod]
+        public void CanUpdate()
+        {
+            using (var data = new DbTestData())
+            {
+                var translationId = data.translation1.ID;
+                var translation = dal.ReadById(translationId);
+                translation.Text = "updated";
+
+                var updatedTranslation = dal.UpdateById(translationId, translation);
+
+                updatedTranslation.Should().NotBeNull();
+                updatedTranslation.ID.Should().Be(translationId);
+                updatedTranslation.Text.Should().Be("updated");
+            }
+        }
+
+        [TestMethod]
+        public void CanDelete()
+        {
+            using (var data = new DbTestData())
+            {
+                var votesDAL = new VotesDAL();
+                var translationId = data.translation1.ID;
+
+                dal.ReadById(translationId).Should().NotBeNull();
+                votesDAL.ReadByTranslationId(translationId).Should().NotBeEmpty();
+
+                dal.DeleteById(translationId);
+
+                dal.ReadById(translationId).Should().BeNull();
+                votesDAL.ReadByTranslationId(translationId).Should().BeEmpty();
+            }
+        }
+
+
     }
 }

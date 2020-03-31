@@ -90,6 +90,34 @@ namespace Borderless.DataAccessLayer
             return result;
         }
 
+        public List<Vote> ReadByUserId(Guid userId)
+        {
+            var result = new List<Vote>();
+
+            using (var connection = new SqlConnection(DbStrings.CONNECTION_STRING))
+            {
+                connection.Open();
+
+                using (var command = new SqlCommand())
+                {
+                    command.Connection = connection;
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    command.CommandText = DbStrings.VOTES_READ_BY_USER_ID;
+                    command.Parameters.Add(new SqlParameter("@UserId", userId));
+
+                    using (var dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            result.Add(ModelConverter.GetVote(dataReader));
+                        }
+                    }
+                }
+            }
+
+            return result;
+        }
+
         public Vote Add(Vote vote)
         {
             using (var connection = new SqlConnection(DbStrings.CONNECTION_STRING))
@@ -164,7 +192,6 @@ namespace Borderless.DataAccessLayer
                 }
             }
         }
-
 
     }
 }
