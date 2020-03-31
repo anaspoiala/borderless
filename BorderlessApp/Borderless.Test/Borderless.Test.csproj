@@ -60,6 +60,7 @@
     <Compile Include="DALTests\TranslationsDALTest.cs" />
     <Compile Include="DALTests\VotesDALTest.cs" />
     <Compile Include="DALTests\UsersDALTest.cs" />
+    <Compile Include="DbTestData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ModelTests\ModelTest.cs" />
     <Compile Include="DALTests\LanguagesDALTest.cs" />
