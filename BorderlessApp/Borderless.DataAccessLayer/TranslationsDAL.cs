@@ -8,11 +8,19 @@ namespace Borderless.DataAccessLayer
 {
     public class TranslationsDAL
     {
+        private string _connectionString;
+
+        public TranslationsDAL(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
+
+
         public List<Translation> ReadAll()
         {
             var result = new List<Translation>();
 
-            using (var connection = new SqlConnection(DbStrings.CONNECTION_STRING))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
 
@@ -37,7 +45,7 @@ namespace Borderless.DataAccessLayer
 
         public Translation ReadById(Guid id)
         {
-            using (var connection = new SqlConnection(DbStrings.CONNECTION_STRING))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
 
@@ -65,7 +73,7 @@ namespace Borderless.DataAccessLayer
         {
             var result = new List<Translation>();
 
-            using (var connection = new SqlConnection(DbStrings.CONNECTION_STRING))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
 
@@ -93,7 +101,7 @@ namespace Borderless.DataAccessLayer
         {
             var result = new List<Translation>();
 
-            using (var connection = new SqlConnection(DbStrings.CONNECTION_STRING))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
 
@@ -122,7 +130,7 @@ namespace Borderless.DataAccessLayer
         {
             var result = new List<Translation>();
 
-            using (var connection = new SqlConnection(DbStrings.CONNECTION_STRING))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
 
@@ -148,7 +156,7 @@ namespace Borderless.DataAccessLayer
 
         public Translation Add(Translation translation)
         {
-            using (var connection = new SqlConnection(DbStrings.CONNECTION_STRING))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
 
@@ -177,7 +185,7 @@ namespace Borderless.DataAccessLayer
 
         public Translation UpdateById(Guid id, Translation translation)
         {
-            using (var connection = new SqlConnection(DbStrings.CONNECTION_STRING))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
 
@@ -208,7 +216,7 @@ namespace Borderless.DataAccessLayer
             DeleteVotes(id);
 
             // Then delete the Translation
-            using (var connection = new SqlConnection(DbStrings.CONNECTION_STRING))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
 
@@ -226,7 +234,7 @@ namespace Borderless.DataAccessLayer
 
         private void DeleteVotes(Guid translationId)
         {
-            var votesDAL = new VotesDAL();
+            var votesDAL = new VotesDAL(_connectionString);
             var votes = votesDAL.ReadByTranslationId(translationId);
 
             foreach(var vote in votes)

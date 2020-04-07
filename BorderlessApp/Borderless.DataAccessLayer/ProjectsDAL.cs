@@ -8,11 +8,19 @@ namespace Borderless.DataAccessLayer
 {
     public class ProjectsDAL
     {
+        private string _connectionString;
+
+        public ProjectsDAL(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
+
+
         public List<Project> ReadAll()
         {
             var result = new List<Project>();
 
-            using (var connection = new SqlConnection(DbStrings.CONNECTION_STRING))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
 
@@ -37,7 +45,7 @@ namespace Borderless.DataAccessLayer
 
         public Project ReadById(Guid id)
         {
-            using (var connection = new SqlConnection(DbStrings.CONNECTION_STRING))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
 
@@ -65,7 +73,7 @@ namespace Borderless.DataAccessLayer
         {
             var result = new List<Project>();
 
-            using (var connection = new SqlConnection(DbStrings.CONNECTION_STRING))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
 
@@ -93,7 +101,7 @@ namespace Borderless.DataAccessLayer
         {
             Project addedProject = null;
 
-            using (var connection = new SqlConnection(DbStrings.CONNECTION_STRING))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
 
@@ -124,7 +132,7 @@ namespace Borderless.DataAccessLayer
 
         public Project UpdateById(Guid projectId, Project project)
         {
-            using (var connection = new SqlConnection(DbStrings.CONNECTION_STRING))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
 
@@ -159,7 +167,7 @@ namespace Borderless.DataAccessLayer
             DeletePhrases(projectId);
 
             // Then delete the Project and TargetLanguages
-            using (var connection = new SqlConnection(DbStrings.CONNECTION_STRING))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
 
@@ -192,7 +200,7 @@ namespace Borderless.DataAccessLayer
 
         private Language GetSourceLanguageFromDataReader(SqlDataReader dataReader)
         {
-            var languageDAL = new LanguagesDAL();
+            var languageDAL = new LanguagesDAL(_connectionString);
             var sourceLanguageId = dataReader.GetGuid(dataReader.GetOrdinal("SourceLanguageID"));
             var sourceLanguage = languageDAL.ReadById(sourceLanguageId);
             return sourceLanguage;
@@ -201,7 +209,7 @@ namespace Borderless.DataAccessLayer
         private List<Language> ReadTargetLanguagesByProjectId(Guid projectId)
         {
             var result = new List<Language>();
-            using (var connection = new SqlConnection(DbStrings.CONNECTION_STRING))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
 
@@ -214,7 +222,7 @@ namespace Borderless.DataAccessLayer
 
                     using (var dataReader = command.ExecuteReader())
                     {
-                        var languagesDal = new LanguagesDAL();
+                        var languagesDal = new LanguagesDAL(_connectionString);
 
                         while (dataReader.Read())
                         {
@@ -229,7 +237,7 @@ namespace Borderless.DataAccessLayer
 
         private void AddTargetLanguages(List<Language> targetLanguages, Guid projectId)
         {
-            using (var connection = new SqlConnection(DbStrings.CONNECTION_STRING))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
 
@@ -251,7 +259,7 @@ namespace Borderless.DataAccessLayer
 
         private void DeleteTargetLanguagesByProjectId(Guid projectId)
         {
-            using (var connection = new SqlConnection(DbStrings.CONNECTION_STRING))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
 
@@ -269,7 +277,7 @@ namespace Borderless.DataAccessLayer
 
         private void DeletePhrases(Guid projectId)
         {
-            var phrasesDAL = new PhrasesDAL();
+            var phrasesDAL = new PhrasesDAL(_connectionString);
             var phrasesInThisProject = phrasesDAL.ReadByProjectId(projectId);
 
             foreach (var phrase in phrasesInThisProject)

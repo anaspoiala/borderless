@@ -14,7 +14,7 @@ namespace Borderless.Test.DALTests
         [ClassInitialize]
         public static void Init(TestContext context)
         {
-            dal = new LanguagesDAL();
+            dal = new LanguagesDAL(DbTestData.ConnectionString);
         }
 
         [TestMethod]

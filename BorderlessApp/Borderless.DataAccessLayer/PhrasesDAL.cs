@@ -8,11 +8,19 @@ namespace Borderless.DataAccessLayer
 {
     public class PhrasesDAL
     {
+        private string _connectionString;
+
+        public PhrasesDAL(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
+
+
         public List<Phrase> ReadAll()
         {
             var result = new List<Phrase>();
 
-            using (var connection = new SqlConnection(DbStrings.CONNECTION_STRING))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
 
@@ -37,7 +45,7 @@ namespace Borderless.DataAccessLayer
 
         public Phrase ReadById(Guid id)
         {
-            using (var connection = new SqlConnection(DbStrings.CONNECTION_STRING))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
 
@@ -65,7 +73,7 @@ namespace Borderless.DataAccessLayer
         {
             var result = new List<Phrase>();
 
-            using (var connection = new SqlConnection(DbStrings.CONNECTION_STRING))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
 
@@ -91,7 +99,7 @@ namespace Borderless.DataAccessLayer
 
         public Phrase Add(Phrase phrase)
         {
-            using (var connection = new SqlConnection(DbStrings.CONNECTION_STRING))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
 
@@ -118,7 +126,7 @@ namespace Borderless.DataAccessLayer
 
         public Phrase UpdateById(Guid id, Phrase phrase)
         {
-            using (var connection = new SqlConnection(DbStrings.CONNECTION_STRING))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
 
@@ -149,7 +157,7 @@ namespace Borderless.DataAccessLayer
             DeleteTranslations(id);
 
             // Then delete the Phrase
-            using (var connection = new SqlConnection(DbStrings.CONNECTION_STRING))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
 
@@ -167,7 +175,7 @@ namespace Borderless.DataAccessLayer
 
         private void DeleteTranslations(Guid phraseId)
         {
-            var translationsDAL = new TranslationsDAL();
+            var translationsDAL = new TranslationsDAL(_connectionString);
             var translations = translationsDAL.ReadByPhraseId(phraseId);
 
             foreach(var translation in translations)

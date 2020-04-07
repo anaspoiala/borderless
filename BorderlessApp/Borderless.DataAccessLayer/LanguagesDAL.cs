@@ -8,11 +8,19 @@ namespace Borderless.DataAccessLayer
 {
     public class LanguagesDAL
     {
+        private string _connectionString;
+
+        public LanguagesDAL(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
+
+
         public List<Language> ReadAll()
         {
             var result = new List<Language>();
 
-            using (var connection = new SqlConnection(DbStrings.CONNECTION_STRING))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
 
@@ -37,7 +45,7 @@ namespace Borderless.DataAccessLayer
 
         public Language ReadById(Guid id)
         {
-            using (var connection = new SqlConnection(DbStrings.CONNECTION_STRING))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
 
@@ -63,7 +71,7 @@ namespace Borderless.DataAccessLayer
 
         public Language ReadByName(string name)
         {
-            using (var connection = new SqlConnection(DbStrings.CONNECTION_STRING))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
 

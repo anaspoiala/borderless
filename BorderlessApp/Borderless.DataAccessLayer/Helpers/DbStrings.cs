@@ -2,8 +2,6 @@
 {
     internal class DbStrings
     {
-        public const string CONNECTION_STRING = @"Server=DESKTOP-52CJKGG\SQLEXPRESS;Database=BorderlessDb;Trusted_Connection=True;";
-
         public const string USERS_READ_ALL = "dbo.Users_ReadAll";
         public const string USERS_READ_BY_ID = "dbo.Users_ReadById";
         public const string USERS_ADD = "dbo.Users_Add";

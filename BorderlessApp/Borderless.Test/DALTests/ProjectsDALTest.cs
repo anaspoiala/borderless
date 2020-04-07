@@ -17,7 +17,7 @@ namespace Borderless.Test.DALTests
         [ClassInitialize]
         public static void Init(TestContext context)
         {
-            dal = new ProjectsDAL();
+            dal = new ProjectsDAL(DbTestData.ConnectionString);
         }
 
         [TestMethod]
@@ -134,7 +134,7 @@ namespace Borderless.Test.DALTests
         {
             using (var data = new DbTestData())
             {
-                var phrasesDAL = new PhrasesDAL();
+                var phrasesDAL = new PhrasesDAL(DbTestData.ConnectionString);
                 var project = data.project1;
 
                 dal.ReadById(project.ID).Should().NotBeNull();

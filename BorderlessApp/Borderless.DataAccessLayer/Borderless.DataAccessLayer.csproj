@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DALContext.cs" />
     <Compile Include="Helpers\DbStrings.cs" />
     <Compile Include="Helpers\ModelConverter.cs" />
     <Compile Include="LanguagesDAL.cs" />

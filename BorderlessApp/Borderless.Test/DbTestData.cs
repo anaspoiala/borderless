@@ -27,6 +27,10 @@ namespace Borderless.Test
         private TranslationsDAL _translationsDAL;
         private VotesDAL _votesDAL;
 
+        private static readonly string _connectionString = @"Server=DESKTOP-52CJKGG\SQLEXPRESS;Database=BorderlessDb;Trusted_Connection=True;";
+
+        public static string ConnectionString { get => _connectionString; }
+
         public DbTestData()
         {
             InitDAL();
@@ -50,12 +54,12 @@ namespace Borderless.Test
 
         private void InitDAL()
         {
-            _usersDAL = new UsersDAL();
-            _languagesDAL = new LanguagesDAL();
-            _projectsDAL = new ProjectsDAL();
-            _phrasesDAL = new PhrasesDAL();
-            _translationsDAL = new TranslationsDAL();
-            _votesDAL = new VotesDAL();
+            _usersDAL = new UsersDAL(ConnectionString);
+            _languagesDAL = new LanguagesDAL(ConnectionString);
+            _projectsDAL = new ProjectsDAL(ConnectionString);
+            _phrasesDAL = new PhrasesDAL(ConnectionString);
+            _translationsDAL = new TranslationsDAL(ConnectionString);
+            _votesDAL = new VotesDAL(ConnectionString);
         }
 
         private void InitUsers()

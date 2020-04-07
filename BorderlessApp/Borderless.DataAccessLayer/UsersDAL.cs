@@ -8,11 +8,19 @@ namespace Borderless.DataAccessLayer
 {
     public class UsersDAL
     {
+        private string _connectionString;
+
+        public UsersDAL(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
+
+
         public List<User> ReadAll()
         {
             var result = new List<User>();
 
-            using (var connection = new SqlConnection(DbStrings.CONNECTION_STRING))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
 
@@ -37,7 +45,7 @@ namespace Borderless.DataAccessLayer
 
         public User ReadById(Guid id)
         {
-            using (var connection = new SqlConnection(DbStrings.CONNECTION_STRING))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
 
@@ -63,7 +71,7 @@ namespace Borderless.DataAccessLayer
 
         public User Add(User user)
         {
-            using (var connection = new SqlConnection(DbStrings.CONNECTION_STRING))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
 
@@ -93,7 +101,7 @@ namespace Borderless.DataAccessLayer
 
         public User UpdateById(Guid id, User user)
         {
-            using (var connection = new SqlConnection(DbStrings.CONNECTION_STRING))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
 
@@ -130,7 +138,7 @@ namespace Borderless.DataAccessLayer
             DeleteVotes(id);
 
             // Then delete the User
-            using (var connection = new SqlConnection(DbStrings.CONNECTION_STRING))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
 
@@ -148,7 +156,7 @@ namespace Borderless.DataAccessLayer
 
         private void DeleteProjects(Guid userId)
         {
-            var projectsDAL = new ProjectsDAL();
+            var projectsDAL = new ProjectsDAL(_connectionString);
             var projects = projectsDAL.ReadByUserId(userId);
 
             foreach (var project in projects)
@@ -159,7 +167,7 @@ namespace Borderless.DataAccessLayer
 
         private void DeleteTranslations(Guid userId)
         {
-            var translationsDAL = new TranslationsDAL();
+            var translationsDAL = new TranslationsDAL(_connectionString);
             var translations = translationsDAL.ReadByUserId(userId);
 
             foreach (var translation in translations)
@@ -170,7 +178,7 @@ namespace Borderless.DataAccessLayer
 
         private void DeleteVotes(Guid userId)
         {
-            var votesDAL = new VotesDAL();
+            var votesDAL = new VotesDAL(_connectionString);
             var votes = votesDAL.ReadByUserId(userId);
 
             foreach(var vote in votes)

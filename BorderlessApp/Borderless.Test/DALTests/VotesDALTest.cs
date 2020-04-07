@@ -15,7 +15,7 @@ namespace Borderless.Test.DALTests
         [ClassInitialize]
         public static void Init(TestContext context)
         {
-            dal = new VotesDAL();
+            dal = new VotesDAL(DbTestData.ConnectionString);
         }
 
         [TestMethod]
