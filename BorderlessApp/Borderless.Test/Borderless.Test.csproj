@@ -55,9 +55,17 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BLTests\LanguageBLTest.cs" />
+    <Compile Include="BLTests\PhraseBLTest.cs" />
+    <Compile Include="BLTests\ProjectBLTest.cs" />
+    <Compile Include="BLTests\TranslationBLTest.cs" />
+    <Compile Include="BLTests\BLContextTest.cs" />
+    <Compile Include="BLTests\VoteBLTest.cs" />
+    <Compile Include="BLTests\UserBLTest.cs" />
     <Compile Include="DALTests\PhrasesDALTest.cs" />
     <Compile Include="DALTests\ProjectsDALTest.cs" />
     <Compile Include="DALTests\TranslationsDALTest.cs" />
+    <Compile Include="DALTests\DALContextTest.cs" />
     <Compile Include="DALTests\VotesDALTest.cs" />
     <Compile Include="DALTests\UsersDALTest.cs" />
     <Compile Include="DbTestData.cs" />
@@ -69,6 +77,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Borderless.BusinessLayer\Borderless.BusinessLayer.csproj">
+      <Project>{7b518f55-50bb-4c30-b778-f39cd1ebdca9}</Project>
+      <Name>Borderless.BusinessLayer</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Borderless.DataAccessLayer\Borderless.DataAccessLayer.csproj">
       <Project>{68B000D7-F0C2-401C-978F-D047D93B0C7E}</Project>
       <Name>Borderless.DataAccessLayer</Name>

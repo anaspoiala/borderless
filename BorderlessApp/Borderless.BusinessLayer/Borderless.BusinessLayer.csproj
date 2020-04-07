@@ -41,7 +41,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BLContext.cs" />
+    <Compile Include="LanguageBL.cs" />
+    <Compile Include="PhraseBL.cs" />
+    <Compile Include="ProjectBL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TranslationBL.cs" />
+    <Compile Include="UserBL.cs" />
+    <Compile Include="VoteBL.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Borderless.DataAccessLayer\Borderless.DataAccessLayer.csproj">
+      <Project>{68B000D7-F0C2-401C-978F-D047D93B0C7E}</Project>
+      <Name>Borderless.DataAccessLayer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Borderless.Model\Borderless.Model.csproj">
+      <Project>{EA10F5BA-F064-485B-B656-7BDE7D6F567B}</Project>
+      <Name>Borderless.Model</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
