@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Borderless.DataAccessLayer"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Borderless.BusinessLayer", "Borderless.BusinessLayer\Borderless.BusinessLayer.csproj", "{7B518F55-50BB-4C30-B778-F39CD1EBDCA9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Borderless.ServiceLayer", "Borderless.ServiceLayer\Borderless.ServiceLayer.csproj", "{0A5F4828-3D22-48F5-B0FD-F69306F099F3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{7B518F55-50BB-4C30-B778-F39CD1EBDCA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7B518F55-50BB-4C30-B778-F39CD1EBDCA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7B518F55-50BB-4C30-B778-F39CD1EBDCA9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A5F4828-3D22-48F5-B0FD-F69306F099F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A5F4828-3D22-48F5-B0FD-F69306F099F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A5F4828-3D22-48F5-B0FD-F69306F099F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A5F4828-3D22-48F5-B0FD-F69306F099F3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
