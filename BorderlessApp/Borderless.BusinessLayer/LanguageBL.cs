@@ -16,17 +16,17 @@ namespace Borderless.BusinessLayer
         }
 
 
-        public List<Language> ReadAll()
+        public List<Language> GetAll()
         {
             return _languagesDAL.ReadAll();
         }
 
-        public Language ReadById(Guid id)
+        public Language GetById(Guid id)
         {
             return _languagesDAL.ReadById(id);
         }
 
-        public Language ReadByName(string name)
+        public Language GetByName(string name)
         {
             return _languagesDAL.ReadByName(name);
         }

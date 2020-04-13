@@ -23,7 +23,7 @@ namespace Borderless.Test.BLTests
         {
             using (var data = new DbTestData())
             {
-                var projects = _context.ProjectBL.ReadAll();
+                var projects = _context.Projects.GetAll();
 
                 projects.Should().NotBeNullOrEmpty();
                 projects.Should().HaveCountGreaterOrEqualTo(2);
@@ -36,7 +36,7 @@ namespace Borderless.Test.BLTests
             using (var data = new DbTestData())
             {
                 var projectId = data.project1.ID;
-                var project = _context.ProjectBL.ReadById(projectId);
+                var project = _context.Projects.GetById(projectId);
 
                 project.Should().NotBeNull();
                 project.Name.Should().Be(data.project1.Name);
@@ -52,7 +52,7 @@ namespace Borderless.Test.BLTests
             using (var data = new DbTestData())
             {
                 var userId = data.user1.ID;
-                var projects = _context.ProjectBL.ReadByUserId(userId);
+                var projects = _context.Projects.GetAllByUserId(userId);
 
                 projects.Should().NotBeNullOrEmpty();
                 projects.Should().HaveCountGreaterOrEqualTo(1);
@@ -74,7 +74,7 @@ namespace Borderless.Test.BLTests
                     new List<Language> { data.language2 }
                 );
 
-                var newProject = _context.ProjectBL.Add(project);
+                var newProject = _context.Projects.Add(project);
 
                 newProject.Should().NotBeNull();
                 newProject.ID.Should().NotBe(Guid.Empty);
@@ -85,7 +85,7 @@ namespace Borderless.Test.BLTests
                 newProject.TargetLanguages.Should().HaveCount(1);
                 newProject.TargetLanguages[0].Should().BeEquivalentTo(data.language2);
 
-                _context.ProjectBL.DeleteById(newProject.ID);
+                _context.Projects.DeleteById(newProject.ID);
             }
         }
 
@@ -99,7 +99,7 @@ namespace Borderless.Test.BLTests
                 // Update #1
                 project.Name = "Updated";
 
-                var updatedProject1 = _context.ProjectBL.UpdateById(project.ID, project);
+                var updatedProject1 = _context.Projects.UpdateById(project.ID, project);
 
                 updatedProject1.Should().NotBeNull();
                 updatedProject1.ID.Should().NotBe(Guid.Empty);
@@ -113,7 +113,7 @@ namespace Borderless.Test.BLTests
                 // Update #2
                 project.TargetLanguages = new List<Language> { data.language1, data.language2 };
 
-                var updatedProject2 = _context.ProjectBL.UpdateById(project.ID, project);
+                var updatedProject2 = _context.Projects.UpdateById(project.ID, project);
 
                 updatedProject2.Should().NotBeNull();
                 updatedProject2.ID.Should().NotBe(Guid.Empty);
@@ -134,13 +134,13 @@ namespace Borderless.Test.BLTests
             {
                 var project = data.project1;
 
-                _context.ProjectBL.ReadById(project.ID).Should().NotBeNull();
-                _context.PhraseBL.ReadByProjectId(project.ID).Should().NotBeEmpty();
+                _context.Projects.GetById(project.ID).Should().NotBeNull();
+                _context.Phrases.GetAllByProjectId(project.ID).Should().NotBeEmpty();
 
-                _context.ProjectBL.DeleteById(project.ID);
+                _context.Projects.DeleteById(project.ID);
 
-                _context.ProjectBL.ReadById(project.ID).Should().BeNull();
-                _context.PhraseBL.ReadByProjectId(project.ID).Should().BeEmpty();
+                _context.Projects.GetById(project.ID).Should().BeNull();
+                _context.Phrases.GetAllByProjectId(project.ID).Should().BeEmpty();
             }
         }
     }

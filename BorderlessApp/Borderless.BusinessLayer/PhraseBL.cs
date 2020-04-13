@@ -16,19 +16,19 @@ namespace Borderless.BusinessLayer
         }
 
 
-        public List<Phrase> ReadAll()
+        public List<Phrase> GetAll()
         {
             return _phrasesDAL.ReadAll();
         }
 
-        public Phrase ReadById(Guid id)
+        public Phrase GetById(Guid id)
         {
             return _phrasesDAL.ReadById(id);
         }
 
-        public List<Phrase> ReadByProjectId(Guid projectId)
+        public List<Phrase> GetAllByProjectId(Guid projectId)
         {
-            return _phrasesDAL.ReadByProjectId(projectId);
+            return _phrasesDAL.ReadAllByProjectId(projectId);
         }
 
         public Phrase Add(Phrase phrase)

@@ -16,12 +16,12 @@ namespace Borderless.BusinessLayer
         }
 
 
-        public List<User> ReadAll()
+        public List<User> GetAll()
         {
             return _usersDAL.ReadAll();
         }
 
-        public User ReadById(Guid id)
+        public User GetById(Guid id)
         {
             return _usersDAL.ReadById(id);
         }

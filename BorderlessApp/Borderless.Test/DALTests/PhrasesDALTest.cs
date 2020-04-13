@@ -50,7 +50,7 @@ namespace Borderless.Test.DALTests
             using (var data = new DbTestData())
             {
                 var projectId = data.project1.ID;
-                var phrases = dal.ReadByProjectId(projectId);
+                var phrases = dal.ReadAllByProjectId(projectId);
 
                 phrases.Should().NotBeNullOrEmpty();
                 phrases.Should().HaveCount(1);
@@ -102,12 +102,12 @@ namespace Borderless.Test.DALTests
                 var phraseId = data.phrase1.ID;
 
                 dal.ReadById(phraseId).Should().NotBeNull();
-                translationsDAL.ReadByPhraseId(phraseId).Should().NotBeEmpty();
+                translationsDAL.ReadAllByPhraseId(phraseId).Should().NotBeEmpty();
 
                 dal.DeleteById(phraseId);
 
                 dal.ReadById(phraseId).Should().BeNull();
-                translationsDAL.ReadByPhraseId(phraseId).Should().BeEmpty();
+                translationsDAL.ReadAllByPhraseId(phraseId).Should().BeEmpty();
             }
         }
 

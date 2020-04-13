@@ -16,24 +16,24 @@ namespace Borderless.BusinessLayer
         }
 
 
-        public List<Vote> ReadAll()
+        public List<Vote> GetAll()
         {
             return _votesDAL.ReadAll();
         }
 
-        public Vote ReadById(Guid userId, Guid translationId)
+        public Vote GetById(Guid userId, Guid translationId)
         {
             return _votesDAL.ReadById(userId, translationId);
         }
 
-        public List<Vote> ReadByTranslationId(Guid translationId)
+        public List<Vote> GetAllByTranslationId(Guid translationId)
         {
-            return _votesDAL.ReadByTranslationId(translationId);
+            return _votesDAL.ReadAllByTranslationId(translationId);
         }
 
-        public List<Vote> ReadByUserId(Guid userId)
+        public List<Vote> GetAllByUserId(Guid userId)
         {
-            return _votesDAL.ReadByUserId(userId);
+            return _votesDAL.ReadAllByUserId(userId);
         }
 
         public Vote Add(Vote vote)

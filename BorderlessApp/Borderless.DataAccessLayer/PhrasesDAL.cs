@@ -69,7 +69,7 @@ namespace Borderless.DataAccessLayer
             return null;
         }
 
-        public List<Phrase> ReadByProjectId(Guid projectId)
+        public List<Phrase> ReadAllByProjectId(Guid projectId)
         {
             var result = new List<Phrase>();
 
@@ -176,7 +176,7 @@ namespace Borderless.DataAccessLayer
         private void DeleteTranslations(Guid phraseId)
         {
             var translationsDAL = new TranslationsDAL(_connectionString);
-            var translations = translationsDAL.ReadByPhraseId(phraseId);
+            var translations = translationsDAL.ReadAllByPhraseId(phraseId);
 
             foreach(var translation in translations)
             {

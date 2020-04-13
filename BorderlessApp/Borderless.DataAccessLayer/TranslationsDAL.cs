@@ -69,7 +69,7 @@ namespace Borderless.DataAccessLayer
             return null;
         }
 
-        public List<Translation> ReadByPhraseId(Guid phraseId)
+        public List<Translation> ReadAllByPhraseId(Guid phraseId)
         {
             var result = new List<Translation>();
 
@@ -97,7 +97,7 @@ namespace Borderless.DataAccessLayer
             return result;
         }
 
-        public List<Translation> ReadByPhraseIdAndLanguageId(Guid phraseId, Guid languageId)
+        public List<Translation> ReadAllByPhraseIdAndLanguageId(Guid phraseId, Guid languageId)
         {
             var result = new List<Translation>();
 
@@ -126,7 +126,7 @@ namespace Borderless.DataAccessLayer
             return result;
         }
 
-        public List<Translation> ReadByUserId(Guid userId)
+        public List<Translation> ReadAllByUserId(Guid userId)
         {
             var result = new List<Translation>();
 
@@ -235,7 +235,7 @@ namespace Borderless.DataAccessLayer
         private void DeleteVotes(Guid translationId)
         {
             var votesDAL = new VotesDAL(_connectionString);
-            var votes = votesDAL.ReadByTranslationId(translationId);
+            var votes = votesDAL.ReadAllByTranslationId(translationId);
 
             foreach(var vote in votes)
             {

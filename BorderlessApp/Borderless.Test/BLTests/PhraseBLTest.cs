@@ -22,7 +22,7 @@ namespace Borderless.Test.BLTests
         {
             using (var data = new DbTestData())
             {
-                var phrases = _context.PhraseBL.ReadAll();
+                var phrases = _context.Phrases.GetAll();
 
                 phrases.Should().NotBeNullOrEmpty();
                 phrases.Should().HaveCountGreaterOrEqualTo(2);
@@ -35,7 +35,7 @@ namespace Borderless.Test.BLTests
             using (var data = new DbTestData())
             {
                 var id = data.phrase1.ID;
-                var phrase = _context.PhraseBL.ReadById(id);
+                var phrase = _context.Phrases.GetById(id);
 
                 phrase.Should().NotBeNull();
                 phrase.Text.Should().Be(data.phrase1.Text);
@@ -49,7 +49,7 @@ namespace Borderless.Test.BLTests
             using (var data = new DbTestData())
             {
                 var projectId = data.project1.ID;
-                var phrases = _context.PhraseBL.ReadByProjectId(projectId);
+                var phrases = _context.Phrases.GetAllByProjectId(projectId);
 
                 phrases.Should().NotBeNullOrEmpty();
                 phrases.Should().HaveCount(1);
@@ -64,14 +64,14 @@ namespace Borderless.Test.BLTests
                 Guid projectId = data.project1.ID;
                 var phrase = new Phrase(Guid.Empty, projectId, "test phrase");
 
-                var newPhrase = _context.PhraseBL.Add(phrase);
+                var newPhrase = _context.Phrases.Add(phrase);
 
                 newPhrase.Should().NotBeNull();
                 newPhrase.ID.Should().NotBe(Guid.Empty);
                 newPhrase.Text.Should().Be("test phrase");
                 newPhrase.ProjectID.Should().Be(projectId);
 
-                _context.PhraseBL.DeleteById(newPhrase.ID);
+                _context.Phrases.DeleteById(newPhrase.ID);
             }
         }
 
@@ -83,7 +83,7 @@ namespace Borderless.Test.BLTests
                 var phrase = data.phrase1;
                 phrase.Text = "updated";
 
-                var updatedPhrase = _context.PhraseBL.UpdateById(phrase.ID, phrase);
+                var updatedPhrase = _context.Phrases.UpdateById(phrase.ID, phrase);
 
                 updatedPhrase.Should().NotBeNull();
                 updatedPhrase.ID.Should().Be(phrase.ID);
@@ -99,13 +99,13 @@ namespace Borderless.Test.BLTests
             {
                 var phraseId = data.phrase1.ID;
 
-                _context.PhraseBL.ReadById(phraseId).Should().NotBeNull();
-                _context.TranslationBL.ReadByPhraseId(phraseId).Should().NotBeEmpty();
+                _context.Phrases.GetById(phraseId).Should().NotBeNull();
+                _context.Translations.GetAllByPhraseId(phraseId).Should().NotBeEmpty();
 
-                _context.PhraseBL.DeleteById(phraseId);
+                _context.Phrases.DeleteById(phraseId);
 
-                _context.PhraseBL.ReadById(phraseId).Should().BeNull();
-                _context.TranslationBL.ReadByPhraseId(phraseId).Should().BeEmpty();
+                _context.Phrases.GetById(phraseId).Should().BeNull();
+                _context.Translations.GetAllByPhraseId(phraseId).Should().BeEmpty();
             }
         }
     }

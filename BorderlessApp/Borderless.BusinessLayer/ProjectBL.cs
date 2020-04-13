@@ -14,19 +14,19 @@ namespace Borderless.BusinessLayer
             _projectsDAL = projectsDAL;
         }
 
-        public List<Project> ReadAll()
+        public List<Project> GetAll()
         {
             return _projectsDAL.ReadAll();
         }
 
-        public Project ReadById(Guid id)
+        public Project GetById(Guid id)
         {
             return _projectsDAL.ReadById(id);
         }
 
-        public List<Project> ReadByUserId(Guid userId)
+        public List<Project> GetAllByUserId(Guid userId)
         {
-            return _projectsDAL.ReadByUserId(userId);
+            return _projectsDAL.ReadAllByUserId(userId);
         }
 
         public Project Add(Project project)

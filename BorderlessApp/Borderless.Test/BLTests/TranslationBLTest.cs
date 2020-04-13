@@ -22,7 +22,7 @@ namespace Borderless.Test.BLTests
         {
             using (var data = new DbTestData())
             {
-                var translations = _context.TranslationBL.ReadAll();
+                var translations = _context.Translations.GetAll();
 
                 translations.Should().NotBeNullOrEmpty();
                 translations.Should().HaveCountGreaterOrEqualTo(2);
@@ -35,7 +35,7 @@ namespace Borderless.Test.BLTests
             using (var data = new DbTestData())
             {
                 var id = data.translation1.ID;
-                var translation = _context.TranslationBL.ReadById(id);
+                var translation = _context.Translations.GetById(id);
 
                 translation.Should().NotBeNull();
                 translation.Text.Should().Be(data.translation1.Text);
@@ -51,7 +51,7 @@ namespace Borderless.Test.BLTests
             using (var data = new DbTestData())
             {
                 var phraseId = data.phrase1.ID;
-                var translations = _context.TranslationBL.ReadByPhraseId(phraseId);
+                var translations = _context.Translations.GetAllByPhraseId(phraseId);
 
                 translations.Should().NotBeNullOrEmpty();
                 translations.Should().HaveCount(1);
@@ -65,8 +65,8 @@ namespace Borderless.Test.BLTests
             {
                 var phraseId = data.phrase1.ID;
                 var languageId = data.language2.ID;
-                var translations = _context.TranslationBL
-                    .ReadByPhraseIdAndLanguageId(phraseId, languageId);
+                var translations = _context.Translations
+                    .GetAllByPhraseIdAndLanguageId(phraseId, languageId);
 
                 translations.Should().NotBeNullOrEmpty();
                 translations.Should().HaveCount(1);
@@ -79,7 +79,7 @@ namespace Borderless.Test.BLTests
             using (var data = new DbTestData())
             {
                 var userId = data.user1.ID;
-                var translations = _context.TranslationBL.ReadByUserId(userId);
+                var translations = _context.Translations.GetAllByUserId(userId);
 
                 translations.Should().NotBeNullOrEmpty();
                 translations.Should().HaveCount(1);
@@ -98,7 +98,7 @@ namespace Borderless.Test.BLTests
                     Guid.Empty, "added translation", phraseId, languageId, userId
                 );
 
-                var newTranslation = _context.TranslationBL.Add(translation);
+                var newTranslation = _context.Translations.Add(translation);
 
                 newTranslation.Should().NotBeNull();
                 newTranslation.ID.Should().NotBe(Guid.Empty);
@@ -107,7 +107,7 @@ namespace Borderless.Test.BLTests
                 newTranslation.LanguageID.Should().Be(languageId);
                 newTranslation.UserID.Should().Be(userId);
 
-                _context.TranslationBL.DeleteById(newTranslation.ID);
+                _context.Translations.DeleteById(newTranslation.ID);
             }
         }
 
@@ -117,10 +117,10 @@ namespace Borderless.Test.BLTests
             using (var data = new DbTestData())
             {
                 var translationId = data.translation1.ID;
-                var translation = _context.TranslationBL.ReadById(translationId);
+                var translation = _context.Translations.GetById(translationId);
                 translation.Text = "updated";
 
-                var updatedTranslation = _context.TranslationBL
+                var updatedTranslation = _context.Translations
                     .UpdateById(translationId, translation);
 
                 updatedTranslation.Should().NotBeNull();
@@ -136,13 +136,13 @@ namespace Borderless.Test.BLTests
             {
                 var translationId = data.translation1.ID;
 
-                _context.TranslationBL.ReadById(translationId).Should().NotBeNull();
-                _context.VoteBL.ReadByTranslationId(translationId).Should().NotBeEmpty();
+                _context.Translations.GetById(translationId).Should().NotBeNull();
+                _context.Votes.GetAllByTranslationId(translationId).Should().NotBeEmpty();
 
-                _context.TranslationBL.DeleteById(translationId);
+                _context.Translations.DeleteById(translationId);
 
-                _context.TranslationBL.ReadById(translationId).Should().BeNull();
-                _context.VoteBL.ReadByTranslationId(translationId).Should().BeEmpty();
+                _context.Translations.GetById(translationId).Should().BeNull();
+                _context.Votes.GetAllByTranslationId(translationId).Should().BeEmpty();
             }
         }
     }

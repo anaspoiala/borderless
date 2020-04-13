@@ -51,7 +51,7 @@ namespace Borderless.Test.DALTests
             using (var data = new DbTestData())
             {
                 var translationId = data.translation1.ID;
-                var votes = dal.ReadByTranslationId(translationId);
+                var votes = dal.ReadAllByTranslationId(translationId);
 
                 votes.Should().NotBeNullOrEmpty();
                 votes.Should().HaveCount(1);
@@ -64,7 +64,7 @@ namespace Borderless.Test.DALTests
             using (var data = new DbTestData())
             {
                 var userId = data.user1.ID;
-                var votes = dal.ReadByUserId(userId);
+                var votes = dal.ReadAllByUserId(userId);
 
                 votes.Should().NotBeNullOrEmpty();
                 votes.Should().HaveCount(1);

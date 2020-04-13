@@ -13,12 +13,12 @@ namespace Borderless.Test.DALTests
         {
             var context = new DALContext();
 
-            context.UsersDAL.Should().NotBeNull();
-            context.LanguagesDAL.Should().NotBeNull();
-            context.ProjectsDAL.Should().NotBeNull();
-            context.PhrasesDAL.Should().NotBeNull();
-            context.TranslationsDAL.Should().NotBeNull();
-            context.VotesDAL.Should().NotBeNull();
+            context.Users.Should().NotBeNull();
+            context.Languages.Should().NotBeNull();
+            context.Projects.Should().NotBeNull();
+            context.Phrases.Should().NotBeNull();
+            context.Translations.Should().NotBeNull();
+            context.Votes.Should().NotBeNull();
         }
     }
 }

@@ -18,7 +18,7 @@ namespace Borderless.Test.BLTests
         [TestMethod]
         public void CanReadAll()
         {
-            var languages = _context.LanguageBL.ReadAll();
+            var languages = _context.Languages.GetAll();
 
             languages.Should().NotBeNullOrEmpty();
         }
@@ -29,7 +29,7 @@ namespace Borderless.Test.BLTests
             using (var data = new DbTestData())
             {
                 var id = data.language2.ID;
-                var language = _context.LanguageBL.ReadById(id);
+                var language = _context.Languages.GetById(id);
 
                 language.Should().NotBeNull();
                 language.Name.Should().Be("German");
@@ -42,7 +42,7 @@ namespace Borderless.Test.BLTests
         {
             using (var data = new DbTestData())
             {
-                var language = _context.LanguageBL.ReadByName("English");
+                var language = _context.Languages.GetByName("English");
 
                 language.Should().NotBeNull();
                 language.Name.Should().Be("English");

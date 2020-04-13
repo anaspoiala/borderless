@@ -22,7 +22,7 @@ namespace Borderless.Test.BLTests
         {
             using (var data = new DbTestData())
             {
-                var users = _context.UserBL.ReadAll();
+                var users = _context.Users.GetAll();
 
                 users.Should().NotBeNullOrEmpty();
                 users.Should().HaveCountGreaterOrEqualTo(2);
@@ -35,7 +35,7 @@ namespace Borderless.Test.BLTests
             using (var data = new DbTestData())
             {
                 var id = data.user1.ID;
-                var user = _context.UserBL.ReadById(id);
+                var user = _context.Users.GetById(id);
 
                 user.Should().NotBeNull();
                 user.Username.Should().Be(data.user1.Username);
@@ -58,7 +58,7 @@ namespace Borderless.Test.BLTests
                     "AddedUser@email.com"
                 );
 
-                var newUser = _context.UserBL.Add(user);
+                var newUser = _context.Users.Add(user);
 
                 newUser.Should().NotBeNull();
                 newUser.ID.Should().NotBe(Guid.Empty);
@@ -68,7 +68,7 @@ namespace Borderless.Test.BLTests
                 newUser.PasswordHash.Should().Be("8ee2027983915ec78acc45027d874316");
                 newUser.Email.Should().Be("AddedUser@email.com");
 
-                _context.UserBL.DeleteById(newUser.ID);
+                _context.Users.DeleteById(newUser.ID);
             }
         }
 
@@ -80,11 +80,11 @@ namespace Borderless.Test.BLTests
                 var user = data.user1;
                 user.FirstName = "Updated";
 
-                _context.UserBL.ReadById(user.ID).Should().NotBeNull();
+                _context.Users.GetById(user.ID).Should().NotBeNull();
 
-                var updatedUser = _context.UserBL.UpdateById(user.ID, user);
+                var updatedUser = _context.Users.UpdateById(user.ID, user);
 
-                _context.UserBL.ReadById(user.ID).Should().NotBeNull();
+                _context.Users.GetById(user.ID).Should().NotBeNull();
                 updatedUser.Should().NotBeNull();
                 updatedUser.ID.Should().Be(data.user1.ID);
                 updatedUser.Username.Should().Be(user.Username);
@@ -102,17 +102,17 @@ namespace Borderless.Test.BLTests
             {
                 var user = data.user1;
 
-                _context.UserBL.ReadById(user.ID).Should().NotBeNull();
-                _context.ProjectBL.ReadByUserId(user.ID).Should().NotBeEmpty();
-                _context.TranslationBL.ReadByUserId(user.ID).Should().NotBeEmpty();
-                _context.VoteBL.ReadByUserId(user.ID).Should().NotBeEmpty();
+                _context.Users.GetById(user.ID).Should().NotBeNull();
+                _context.Projects.GetAllByUserId(user.ID).Should().NotBeEmpty();
+                _context.Translations.GetAllByUserId(user.ID).Should().NotBeEmpty();
+                _context.Votes.GetAllByUserId(user.ID).Should().NotBeEmpty();
 
-                _context.UserBL.DeleteById(user.ID);
+                _context.Users.DeleteById(user.ID);
 
-                _context.UserBL.ReadById(user.ID).Should().BeNull();
-                _context.ProjectBL.ReadByUserId(user.ID).Should().BeEmpty();
-                _context.TranslationBL.ReadByUserId(user.ID).Should().BeEmpty();
-                _context.VoteBL.ReadByUserId(user.ID).Should().BeEmpty();
+                _context.Users.GetById(user.ID).Should().BeNull();
+                _context.Projects.GetAllByUserId(user.ID).Should().BeEmpty();
+                _context.Translations.GetAllByUserId(user.ID).Should().BeEmpty();
+                _context.Votes.GetAllByUserId(user.ID).Should().BeEmpty();
 
             }
         }

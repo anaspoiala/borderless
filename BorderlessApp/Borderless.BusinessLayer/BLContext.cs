@@ -6,30 +6,30 @@ namespace Borderless.BusinessLayer
     {
         private DALContext _dalContext;
 
-        private UserBL _userBL;
-        private LanguageBL _languageBL;
-        private ProjectBL _projectBL;
-        private PhraseBL _phraseBL;
-        private TranslationBL _translationBL;
-        private VoteBL _voteBL;
+        private UserBL _users;
+        private LanguageBL _languages;
+        private ProjectBL _projects;
+        private PhraseBL _phrases;
+        private TranslationBL _translations;
+        private VoteBL _votes;
 
-        public UserBL UserBL 
-            => _userBL ?? (_userBL = new UserBL(_dalContext.UsersDAL));
+        public UserBL Users 
+            => _users ?? (_users = new UserBL(_dalContext.Users));
 
-        public LanguageBL LanguageBL 
-            => _languageBL ?? (_languageBL = new LanguageBL(_dalContext.LanguagesDAL));
+        public LanguageBL Languages 
+            => _languages ?? (_languages = new LanguageBL(_dalContext.Languages));
 
-        public ProjectBL ProjectBL
-            => _projectBL ?? (_projectBL = new ProjectBL(_dalContext.ProjectsDAL));
+        public ProjectBL Projects
+            => _projects ?? (_projects = new ProjectBL(_dalContext.Projects));
 
-        public PhraseBL PhraseBL 
-            => _phraseBL ?? (_phraseBL = new PhraseBL(_dalContext.PhrasesDAL));
+        public PhraseBL Phrases 
+            => _phrases ?? (_phrases = new PhraseBL(_dalContext.Phrases));
 
-        public TranslationBL TranslationBL
-            => _translationBL ?? (_translationBL = new TranslationBL(_dalContext.TranslationsDAL));
+        public TranslationBL Translations
+            => _translations ?? (_translations = new TranslationBL(_dalContext.Translations));
 
-        public VoteBL VoteBL 
-            => _voteBL ?? (_voteBL = new VoteBL(_dalContext.VotesDAL));
+        public VoteBL Votes 
+            => _votes ?? (_votes = new VoteBL(_dalContext.Votes));
 
 
         public BLContext()

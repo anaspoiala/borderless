@@ -14,29 +14,29 @@ namespace Borderless.BusinessLayer
             _translationsDAL = translationsDAL;
         }
 
-        public List<Translation> ReadAll()
+        public List<Translation> GetAll()
         {
             return _translationsDAL.ReadAll();
         }
 
-        public Translation ReadById(Guid id)
+        public Translation GetById(Guid id)
         {
             return _translationsDAL.ReadById(id);
         }
 
-        public List<Translation> ReadByPhraseId(Guid phraseId)
+        public List<Translation> GetAllByPhraseId(Guid phraseId)
         {
-            return _translationsDAL.ReadByPhraseId(phraseId);
+            return _translationsDAL.ReadAllByPhraseId(phraseId);
         }
 
-        public List<Translation> ReadByPhraseIdAndLanguageId(Guid phraseId, Guid languageId)
+        public List<Translation> GetAllByPhraseIdAndLanguageId(Guid phraseId, Guid languageId)
         {
-            return _translationsDAL.ReadByPhraseIdAndLanguageId(phraseId, languageId);
+            return _translationsDAL.ReadAllByPhraseIdAndLanguageId(phraseId, languageId);
         }
 
-        public List<Translation> ReadByUserId(Guid userId)
+        public List<Translation> GetAllByUserId(Guid userId)
         {
-            return _translationsDAL.ReadByUserId(userId);
+            return _translationsDAL.ReadAllByUserId(userId);
         }
 
         public Translation Add(Translation translation)

@@ -13,12 +13,12 @@ namespace Borderless.Test.BLTests
         {
             var context = new BLContext();
 
-            context.UserBL.Should().NotBeNull();
-            context.LanguageBL.Should().NotBeNull();
-            context.ProjectBL.Should().NotBeNull();
-            context.PhraseBL.Should().NotBeNull();
-            context.TranslationBL.Should().NotBeNull();
-            context.VoteBL.Should().NotBeNull();
+            context.Users.Should().NotBeNull();
+            context.Languages.Should().NotBeNull();
+            context.Projects.Should().NotBeNull();
+            context.Phrases.Should().NotBeNull();
+            context.Translations.Should().NotBeNull();
+            context.Votes.Should().NotBeNull();
         }
     }
 }

@@ -157,7 +157,7 @@ namespace Borderless.DataAccessLayer
         private void DeleteProjects(Guid userId)
         {
             var projectsDAL = new ProjectsDAL(_connectionString);
-            var projects = projectsDAL.ReadByUserId(userId);
+            var projects = projectsDAL.ReadAllByUserId(userId);
 
             foreach (var project in projects)
             {
@@ -168,7 +168,7 @@ namespace Borderless.DataAccessLayer
         private void DeleteTranslations(Guid userId)
         {
             var translationsDAL = new TranslationsDAL(_connectionString);
-            var translations = translationsDAL.ReadByUserId(userId);
+            var translations = translationsDAL.ReadAllByUserId(userId);
 
             foreach (var translation in translations)
             {
@@ -179,7 +179,7 @@ namespace Borderless.DataAccessLayer
         private void DeleteVotes(Guid userId)
         {
             var votesDAL = new VotesDAL(_connectionString);
-            var votes = votesDAL.ReadByUserId(userId);
+            var votes = votesDAL.ReadAllByUserId(userId);
 
             foreach(var vote in votes)
             {

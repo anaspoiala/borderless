@@ -107,16 +107,16 @@ namespace Borderless.Test.DALTests
                 var user = data.user1;
 
                 dal.ReadById(user.ID).Should().NotBeNull();
-                projectsDAL.ReadByUserId(user.ID).Should().NotBeEmpty();
-                translationsDAL.ReadByUserId(user.ID).Should().NotBeEmpty();
-                votesDAL.ReadByUserId(user.ID).Should().NotBeEmpty();
+                projectsDAL.ReadAllByUserId(user.ID).Should().NotBeEmpty();
+                translationsDAL.ReadAllByUserId(user.ID).Should().NotBeEmpty();
+                votesDAL.ReadAllByUserId(user.ID).Should().NotBeEmpty();
 
                 dal.DeleteById(user.ID);
 
                 dal.ReadById(user.ID).Should().BeNull();
-                projectsDAL.ReadByUserId(user.ID).Should().BeEmpty();
-                translationsDAL.ReadByUserId(user.ID).Should().BeEmpty();
-                votesDAL.ReadByUserId(user.ID).Should().BeEmpty();
+                projectsDAL.ReadAllByUserId(user.ID).Should().BeEmpty();
+                translationsDAL.ReadAllByUserId(user.ID).Should().BeEmpty();
+                votesDAL.ReadAllByUserId(user.ID).Should().BeEmpty();
 
             }
         }

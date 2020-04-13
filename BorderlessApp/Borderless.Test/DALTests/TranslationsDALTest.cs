@@ -52,7 +52,7 @@ namespace Borderless.Test.DALTests
             using (var data = new DbTestData())
             {
                 var phraseId = data.phrase1.ID;
-                var translations = dal.ReadByPhraseId(phraseId);
+                var translations = dal.ReadAllByPhraseId(phraseId);
 
                 translations.Should().NotBeNullOrEmpty();
                 translations.Should().HaveCount(1);
@@ -66,7 +66,7 @@ namespace Borderless.Test.DALTests
             {
                 var phraseId = data.phrase1.ID;
                 var languageId = data.language2.ID;
-                var translations = dal.ReadByPhraseIdAndLanguageId(phraseId, languageId);
+                var translations = dal.ReadAllByPhraseIdAndLanguageId(phraseId, languageId);
 
                 translations.Should().NotBeNullOrEmpty();
                 translations.Should().HaveCount(1);
@@ -79,7 +79,7 @@ namespace Borderless.Test.DALTests
             using (var data = new DbTestData())
             {
                 var userId = data.user1.ID;
-                var translations = dal.ReadByUserId(userId);
+                var translations = dal.ReadAllByUserId(userId);
 
                 translations.Should().NotBeNullOrEmpty();
                 translations.Should().HaveCount(1);
@@ -135,12 +135,12 @@ namespace Borderless.Test.DALTests
                 var translationId = data.translation1.ID;
 
                 dal.ReadById(translationId).Should().NotBeNull();
-                votesDAL.ReadByTranslationId(translationId).Should().NotBeEmpty();
+                votesDAL.ReadAllByTranslationId(translationId).Should().NotBeEmpty();
 
                 dal.DeleteById(translationId);
 
                 dal.ReadById(translationId).Should().BeNull();
-                votesDAL.ReadByTranslationId(translationId).Should().BeEmpty();
+                votesDAL.ReadAllByTranslationId(translationId).Should().BeEmpty();
             }
         }
 

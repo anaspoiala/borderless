@@ -22,7 +22,7 @@ namespace Borderless.Test.BLTests
         {
             using (var data = new DbTestData())
             {
-                var votes = _context.VoteBL.ReadAll();
+                var votes = _context.Votes.GetAll();
 
                 votes.Should().NotBeNullOrEmpty();
                 votes.Should().HaveCountGreaterOrEqualTo(2);
@@ -36,7 +36,7 @@ namespace Borderless.Test.BLTests
             {
                 var userId = data.user1.ID;
                 var translationId = data.translation2.ID;
-                var vote = _context.VoteBL.ReadById(userId, translationId);
+                var vote = _context.Votes.GetById(userId, translationId);
 
                 vote.Should().NotBeNull();
                 vote.IsUpvote.Should().BeTrue();
@@ -50,7 +50,7 @@ namespace Borderless.Test.BLTests
             using (var data = new DbTestData())
             {
                 var translationId = data.translation1.ID;
-                var votes = _context.VoteBL.ReadByTranslationId(translationId);
+                var votes = _context.Votes.GetAllByTranslationId(translationId);
 
                 votes.Should().NotBeNullOrEmpty();
                 votes.Should().HaveCount(1);
@@ -63,7 +63,7 @@ namespace Borderless.Test.BLTests
             using (var data = new DbTestData())
             {
                 var userId = data.user1.ID;
-                var votes = _context.VoteBL.ReadByUserId(userId);
+                var votes = _context.Votes.GetAllByUserId(userId);
 
                 votes.Should().NotBeNullOrEmpty();
                 votes.Should().HaveCount(1);
@@ -78,17 +78,17 @@ namespace Borderless.Test.BLTests
                 Guid userId = data.user1.ID;
                 Guid translationId = data.translation1.ID;
 
-                _context.VoteBL.ReadById(userId, translationId).Should().BeNull();
+                _context.Votes.GetById(userId, translationId).Should().BeNull();
 
-                var newVote = _context.VoteBL.Add(new Vote(userId, translationId, true));
+                var newVote = _context.Votes.Add(new Vote(userId, translationId, true));
 
-                _context.VoteBL.ReadById(userId, translationId).Should().NotBeNull();
+                _context.Votes.GetById(userId, translationId).Should().NotBeNull();
                 newVote.Should().NotBeNull();
                 newVote.UserID.Should().Be(userId);
                 newVote.TranslationID.Should().Be(translationId);
                 newVote.IsUpvote.Should().BeTrue();
 
-                _context.VoteBL.DeleteById(newVote.UserID, newVote.TranslationID);
+                _context.Votes.DeleteById(newVote.UserID, newVote.TranslationID);
             }
         }
 
@@ -100,13 +100,13 @@ namespace Borderless.Test.BLTests
                 Guid userId = data.user1.ID;
                 Guid translationId = data.translation2.ID;
 
-                var vote = _context.VoteBL.ReadById(userId, translationId);
+                var vote = _context.Votes.GetById(userId, translationId);
                 vote.IsUpvote.Should().BeTrue();
 
                 vote.IsUpvote = false;
-                var updatedVote = _context.VoteBL.UpdateById(userId, translationId, vote);
+                var updatedVote = _context.Votes.UpdateById(userId, translationId, vote);
 
-                _context.VoteBL.ReadById(userId, translationId).Should().NotBeNull();
+                _context.Votes.GetById(userId, translationId).Should().NotBeNull();
                 updatedVote.Should().NotBeNull();
                 updatedVote.UserID.Should().Be(userId);
                 updatedVote.TranslationID.Should().Be(translationId);
@@ -122,12 +122,12 @@ namespace Borderless.Test.BLTests
                 Guid userId = data.user1.ID;
                 Guid translationId = data.translation2.ID;
 
-                var deletedVote = _context.VoteBL.ReadById(userId, translationId);
+                var deletedVote = _context.Votes.GetById(userId, translationId);
                 deletedVote.Should().NotBeNull();
 
-                _context.VoteBL.DeleteById(deletedVote.UserID, deletedVote.TranslationID);
+                _context.Votes.DeleteById(deletedVote.UserID, deletedVote.TranslationID);
 
-                _context.VoteBL.ReadById(userId, translationId).Should().BeNull();
+                _context.Votes.GetById(userId, translationId).Should().BeNull();
             }
         }
     }

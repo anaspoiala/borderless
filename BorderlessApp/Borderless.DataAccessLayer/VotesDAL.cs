@@ -70,7 +70,7 @@ namespace Borderless.DataAccessLayer
             return null;
         }
 
-        public List<Vote> ReadByTranslationId(Guid translationId)
+        public List<Vote> ReadAllByTranslationId(Guid translationId)
         {
             var result = new List<Vote>();
 
@@ -98,7 +98,7 @@ namespace Borderless.DataAccessLayer
             return result;
         }
 
-        public List<Vote> ReadByUserId(Guid userId)
+        public List<Vote> ReadAllByUserId(Guid userId)
         {
             var result = new List<Vote>();
 
