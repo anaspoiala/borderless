@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phrase</title>
+
+    <link href="styles/bootstrap.css" rel="stylesheet" >
+    <link href="styles/searchbar.css" rel="stylesheet" >
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
+    
+    <script src="scripts/common.js"></script>
+    <script src="scripts/phrase.js"></script>
+</head>
+<body>
+    <div class="container my-3">
+        <div class="row"> 
+            <!-- All phrases from the current project list column -->
+            <div class="col-md-4">
+                <!-- The search bar for the phrases -->
+                <div id="searchBarContainer" class="mb-1">
+                    <input type="text" placeholder="Search phrases" class="form-control border shadow-none">
+                    <button id="searchButton" class="border btn shadow-none">Search</button>
+                </div>
+                
+                <!-- The list of phrases -->
+                <div id="phrasesList" class="list-group mb-3">
+
+                </div>
+            </div>
+
+            <!-- Currently selected phrase and its translations column -->
+            <div class="col-md-8"> 
+                <!-- Project's source language and target languages dropdown -->
+                <div> 
+                    <div class="d-flex bd-highlight align-items-center mb-1">
+                        <span id="projectSourceLanguage"></span>
+                        <span class="material-icons">chevron_right</span>
+                        <span><select id="languageDropdown" class="form-control shadow-none" onchange="onLanguageSelected(event.target.value)"></select></span>
+                    </div>
+                </div>
+                
+                <!-- The text of the currently selected phrase -->
+                <div> 
+                    <textarea id="currentPhraseText" class="form-control shadow-none" rows="2" readonly></textarea>
+                </div>
+
+                <!-- Text box and submit button for adding a new translation to the current phrase -->
+                <div> 
+                    <textarea id="newTranslationText" class="form-control shadow-none mb-1" rows="2" placeholder="Enter translation"></textarea>
+                    <div class="d-flex bd-highlight align-items-center">
+                        <span class="flex-fill bd-highlight"></span>
+                        <button id="submitTranslationButton" type="button" class="btn btn-primary shadow-none">Submit</button>
+                    </div>
+                </div>
+            
+                <hr>
+
+                <!-- All translations of the current phrase, filtered by target language -->
+                <div id="translationsList"> 
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects</title>
+    
+    <link href="styles/bootstrap.css" rel="stylesheet" >
+    <link href="styles/searchbar.css" rel="stylesheet" >
+    
+    <script src="scripts/common.js"></script>
+    <script src="scripts/all-projects.js"></script>
+</head>
+<body>
+    <div class='container'>
+        <div><h2 class="my-3">Projects</h2></div>
+
+        <!-- The search bar for the phrases -->
+        <div id="searchBarContainer" class="mb-1">
+            <input type="text" placeholder="Search projects" class="form-control border shadow-none">
+            <button id="searchButton" class="border btn shadow-none">Search</button>
+        </div>
+
+        <!-- The list of all projects -->
+        <ul id="projectsList" class="list-group list-group-flush"></ul>
+    </div>
+</body>
+</html>

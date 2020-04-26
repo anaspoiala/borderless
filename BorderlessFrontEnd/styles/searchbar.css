@@ -1,0 +1,16 @@
+#searchBarContainer {
+    display: flex;
+    flex-flow: row nowrap;
+}
+#searchBarContainer > *{ /* any direct child */
+    height: 45px;
+    margin: 0;
+    padding: 16px;
+    line-height: 1;
+    box-sizing: border-box;
+    background-clip: border-box;
+}
+#searchBarContainer > input{
+    flex-grow: 1;
+    border-right: none !important;
+}

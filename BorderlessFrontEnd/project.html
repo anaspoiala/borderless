@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects</title>
+
+    <link href="styles/bootstrap.css" rel="stylesheet" >
+    
+    <script src="scripts/common.js"></script>
+    <script src="scripts/project.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Title -->
+        <div id="projectTitle" class="my-3">
+        </div>
+
+        <!-- Project details -->
+        <div id="projectContent" class="row">
+            <!-- Phrases list -->
+            <div class="col-md-8 mb-3">
+                <h3 class="text-capitalize my-3">Phrases</h3>
+                <div id="phrasesList" class="list-group"></div>
+            </div>
+
+            <!-- Project details (description, creator, languages) -->
+            <div id="projectDetails" class="col-md-4 mb-3">
+                <h3 class="text-capitalize my-3">Description</h3>
+                <div id="projectDescription" class="text-justify"></div>
+
+                <h3 class="text-capitalize mt-3">Creator</h3>
+                <div id="projectUsername"></div>
+
+                <h3 class="text-capitalize mt-3">Source language</h3>
+                <div id="projectSourceLanguage"></div>
+
+                <h3 class="text-capitalize mt-3">Target languages</h3>
+                <div id="projectTargetLanguages"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
