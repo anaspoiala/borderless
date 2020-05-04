@@ -67,6 +67,18 @@ namespace Borderless.BusinessLayer
             return _usersDAL.UpdateById(id, user);
         }
 
+        public User UpdatePasswordById(Guid id, string newPassword)
+        {
+            var user = _usersDAL.ReadById(id);
+
+            if (user == null)
+                throw new Exception("Cannot update inexistent user!");
+
+            user.PasswordHash = GetPasswordHash(newPassword);
+
+            return _usersDAL.UpdateById(id, user);
+        }
+
         public void DeleteById(Guid id)
         {
             _usersDAL.DeleteById(id);

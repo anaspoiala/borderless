@@ -39,6 +39,7 @@ namespace Borderless.ServiceLayer.MessageHandlers
             }
             catch (SecurityTokenValidationException)
             {
+                throw;
                 statusCodeInCaseOfExceptions = HttpStatusCode.Unauthorized;
             }
             catch (Exception)

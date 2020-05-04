@@ -181,6 +181,8 @@
     <Compile Include="Controllers\TranslationsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\VotesController.cs" />
+    <Compile Include="Entities\PasswordUpdate.cs" />
+    <Compile Include="Entities\User.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

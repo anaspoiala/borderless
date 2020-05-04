@@ -39,6 +39,8 @@ namespace Borderless.ServiceLayer.Helpers
 
             var tokenValidationParameters = new TokenValidationParameters
             {
+                ValidateAudience = false,
+                ValidateIssuer = false,
                 ValidateLifetime = true,
                 LifetimeValidator = ValidateLifetime,
                 ValidateIssuerSigningKey = true,
