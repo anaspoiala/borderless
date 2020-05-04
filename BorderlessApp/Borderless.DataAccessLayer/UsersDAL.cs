@@ -69,6 +69,32 @@ namespace Borderless.DataAccessLayer
             return null;
         }
 
+        public User ReadByUsername(string username)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                using (var command = new SqlCommand())
+                {
+                    command.Connection = connection;
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    command.CommandText = DbStrings.USERS_READ_BY_USERNAME;
+                    command.Parameters.Add(new SqlParameter("@Username", username));
+
+                    using (var dataReader = command.ExecuteReader())
+                    {
+                        if (dataReader.Read())
+                        {
+                            return ModelConverter.GetUser(dataReader);
+                        }
+                    }
+                }
+            }
+
+            return null;
+        }
+
         public User Add(User user)
         {
             using (var connection = new SqlConnection(_connectionString))

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using Borderless.ServiceLayer.MessageHandlers;
 
 namespace Borderless.ServiceLayer
 {
@@ -13,6 +14,8 @@ namespace Borderless.ServiceLayer
 
             // Web API routes
             config.MapHttpAttributeRoutes();
+
+            config.MessageHandlers.Add(new JwtTokenValidationHandler());
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",

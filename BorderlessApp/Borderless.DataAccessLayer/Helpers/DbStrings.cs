@@ -4,6 +4,7 @@
     {
         public const string USERS_READ_ALL = "dbo.Users_ReadAll";
         public const string USERS_READ_BY_ID = "dbo.Users_ReadById";
+        public const string USERS_READ_BY_USERNAME = "dbo.Users_ReadByUsername";
         public const string USERS_ADD = "dbo.Users_Add";
         public const string USERS_UPDATE = "dbo.Users_Update";
         public const string USERS_DELETE = "dbo.Users_Delete";
@@ -47,5 +48,6 @@
         public const string TARGET_LANGUAGES_ADD = "dbo.TargetLanguages_Add";
         public const string TARGET_LANGUAGES_DELETE = "dbo.TargetLanguages_Delete";
         public const string TARGET_LANGUAGES_DELETE_BY_PROJECT_ID = "dbo.TargetLanguages_DeleteByProjectId";
+
     }
 }

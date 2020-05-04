@@ -42,10 +42,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BLContext.cs" />
+    <Compile Include="Entities\LoginCredentials.cs" />
+    <Compile Include="Entities\RegistrationDetails.cs" />
+    <Compile Include="Entities\UserUpdateDetails.cs" />
     <Compile Include="LanguageBL.cs" />
     <Compile Include="PhraseBL.cs" />
     <Compile Include="ProjectBL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Security\Hasher.cs" />
     <Compile Include="TranslationBL.cs" />
     <Compile Include="UserBL.cs" />
     <Compile Include="VoteBL.cs" />

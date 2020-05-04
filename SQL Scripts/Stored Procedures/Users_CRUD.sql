@@ -77,6 +77,19 @@ BEGIN
 END
 
 
+-- READ BY USERNAME
+
+ALTER PROCEDURE dbo.Users_ReadByUsername
+(
+	@Username varchar(50)
+) 
+AS
+BEGIN
+	SELECT * FROM [dbo].[Users] 
+	WHERE [Username] = @Username 
+END
+
+
 -- READ ALL
 
 ALTER PROCEDURE dbo.Users_ReadAll

@@ -14,18 +14,21 @@ namespace Borderless.ServiceLayer.Controllers
         private BLContext _context = new BLContext();
 
         [HttpGet]
+        [Authorize]
         public List<Language> GetAll()
         {
             return _context.Languages.GetAll();
         }
 
         [HttpGet]
+        [Authorize]
         public Language GetById(Guid id)
         {
             return _context.Languages.GetById(id);
         }
 
         [HttpGet]
+        [Authorize]
         public Language GetByName(string name)
         {
             return _context.Languages.GetByName(name);
