@@ -1,27 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using Borderless.BusinessLayer;
 using Borderless.Model.Entities;
+using Borderless.ServiceLayer.Helpers;
 
 namespace Borderless.ServiceLayer.Controllers
 {
+    [RoutePrefix("api")]
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class PhrasesController : ApiController
     {
         private BLContext _context = new BLContext();
 
         [HttpGet]
         [Authorize]
-        public List<Phrase> GetAll()
-        {
-            return _context.Phrases.GetAll();
-        }
-
-        [HttpGet]
-        [Authorize]
+        [Route("phrases/{id:guid}")]
         public Phrase GetById(Guid id)
         {
             return _context.Phrases.GetById(id);
@@ -29,30 +24,38 @@ namespace Borderless.ServiceLayer.Controllers
 
         [HttpGet]
         [Authorize]
-        public List<Phrase> GetAllByProjectId(Guid projectId)
+        [Route("projects/{id:guid}/phrases")]
+        public List<Phrase> GetAllByProjectId(Guid id)
         {
-            return _context.Phrases.GetAllByProjectId(projectId);
+            return _context.Phrases.GetAllByProjectId(id);
         }
 
         [HttpPost]
         [Authorize]
-        public Phrase Add([FromBody]Phrase phrase)
+        [Route("phrases")]
+        public IHttpActionResult Add([FromBody]Phrase phrase)
         {
-            return _context.Phrases.Add(phrase);
+            Guid authenticatedUserId = ClaimsHelper.GetUserIdFromClaims();
+            return Ok(_context.Phrases.Add(phrase, authenticatedUserId));
         }
 
         [HttpPut]
         [Authorize]
-        public Phrase UpdateById(Guid id, [FromBody]Phrase phrase)
+        [Route("phrases/{id:guid}")]
+        public IHttpActionResult UpdateById(Guid id, [FromBody]Phrase phrase)
         {
-            return _context.Phrases.UpdateById(id, phrase);
+            Guid authenticatedUserId = ClaimsHelper.GetUserIdFromClaims();
+            return  Ok(_context.Phrases.UpdateById(id, phrase, authenticatedUserId));
         }
 
         [HttpDelete]
         [Authorize]
-        public void DeleteById(Guid id)
+        [Route("phrases/{id:guid}")]
+        public IHttpActionResult DeleteById(Guid id)
         {
-            _context.Phrases.DeleteById(id);
+            Guid authenticatedUserId = ClaimsHelper.GetUserIdFromClaims();
+            _context.Phrases.DeleteById(id, authenticatedUserId);
+            return Ok();
         }
     }
 }

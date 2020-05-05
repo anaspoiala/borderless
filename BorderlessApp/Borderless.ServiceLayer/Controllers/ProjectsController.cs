@@ -1,58 +1,70 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using Borderless.BusinessLayer;
 using Borderless.Model.Entities;
+using Borderless.ServiceLayer.Helpers;
 
 namespace Borderless.ServiceLayer.Controllers
 {
+    [RoutePrefix("api")]
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class ProjectsController : ApiController
     {
         private BLContext _context = new BLContext();
 
         [HttpGet]
         [Authorize]
-        public List<Project> GetAll()
+        [Route("projects")]
+        public IHttpActionResult GetAll()
         {
-            return _context.Projects.GetAll();
+            return Ok(_context.Projects.GetAll());
         }
 
         [HttpGet]
         [Authorize]
-        public Project GetById(Guid id)
+        [Route("projects/{id:guid}")]
+        public IHttpActionResult GetById(Guid id)
         {
-            return _context.Projects.GetById(id);
+            return Ok(_context.Projects.GetById(id));
         }
 
         [HttpGet]
         [Authorize]
-        public List<Project> GetAllByUserId(Guid userId)
+        [Route("users/{id:guid}/projects")]
+        public IHttpActionResult GetAllByUserId(Guid id)
         {
-            return _context.Projects.GetAllByUserId(userId);
+            return Ok(_context.Projects.GetAllByUserId(id));
         }
 
         [HttpPost]
         [Authorize]
-        public Project Add([FromBody]Project project)
+        [Route("projects")]
+        public IHttpActionResult Add([FromBody]Project project)
         {
-            return _context.Projects.Add(project);
+            Guid authenticatedUserId = ClaimsHelper.GetUserIdFromClaims();
+            return Ok(_context.Projects.Add(project, authenticatedUserId));
+
         }
 
         [HttpPut]
         [Authorize]
-        public Project UpdateById(Guid projectId, [FromBody]Project project)
+        [Route("projects/{id:guid}")]
+        public IHttpActionResult UpdateById(Guid id, [FromBody]Project project)
         {
-            return _context.Projects.UpdateById(projectId, project);
+            Guid authenticatedUserId = ClaimsHelper.GetUserIdFromClaims();
+            return Ok(_context.Projects.UpdateById(id, project, authenticatedUserId));
         }
 
         [HttpDelete]
         [Authorize]
-        public void DeleteById(Guid projectId)
+        [Route("projects/{id:guid}")]
+        public IHttpActionResult DeleteById(Guid id)
         {
-            _context.Projects.DeleteById(projectId);
+            Guid authenticatedUserId = ClaimsHelper.GetUserIdFromClaims();
+            _context.Projects.DeleteById(id, authenticatedUserId);
+            return Ok();
         }
     }
 }

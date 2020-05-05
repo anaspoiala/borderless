@@ -1,4 +1,5 @@
 ﻿using System.Web.Http;
+using System.Web.Http.Cors;
 using Borderless.BusinessLayer;
 using Borderless.BusinessLayer.Entities;
 using Borderless.ServiceLayer.Entities;
@@ -6,11 +7,14 @@ using Borderless.ServiceLayer.Helpers;
 
 namespace Borderless.ServiceLayer.Controllers
 {
+    [RoutePrefix("api")]
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class AuthenticationController : ApiController
     {
         private BLContext _context = new BLContext();
 
         [HttpPost]
+        [Route("authentication/login")]
         public IHttpActionResult Login([FromBody] LoginCredentials credentials)
         {
             bool valid = _context.Users.CheckCredentials(credentials);
@@ -28,4 +32,3 @@ namespace Borderless.ServiceLayer.Controllers
         }
     }
 }
-    

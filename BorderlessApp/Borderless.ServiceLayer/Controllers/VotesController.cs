@@ -1,65 +1,70 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using Borderless.BusinessLayer;
 using Borderless.Model.Entities;
+using Borderless.ServiceLayer.Helpers;
 
 namespace Borderless.ServiceLayer.Controllers
 {
+    [RoutePrefix("api")]
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class VotesController : ApiController
     {
         private BLContext _context = new BLContext();
 
         [HttpGet]
         [Authorize]
-        public List<Vote> GetAll()
+        [Route("votes")]
+        public List<Vote> GetById(Guid? userId, Guid? translationId)
         {
-            return _context.Votes.GetAll();
-        }
-
-        [HttpGet]
-        [Authorize]
-        public Vote GetById(Guid userId, Guid translationId)
-        {
-            return _context.Votes.GetById(userId, translationId);
-        }
-
-        [HttpGet]
-        [Authorize]
-        public List<Vote> GetAllByTranslationId(Guid translationId)
-        {
-            return _context.Votes.GetAllByTranslationId(translationId);
-        }
-
-        [HttpGet]
-        [Authorize]
-        public List<Vote> GetAllByUserId(Guid userId)
-        {
-            return _context.Votes.GetAllByUserId(userId);
+            if (userId.HasValue && translationId.HasValue)
+            {
+                // /votes?userId=...&translationId=...
+                return new List<Vote> { _context.Votes.GetById(userId.Value, translationId.Value) };
+            }
+            else if (!userId.HasValue && translationId.HasValue)
+            {
+                // /votes?translationId=...
+                return _context.Votes.GetAllByTranslationId(translationId.Value);
+            }
+            else if (userId.HasValue && !translationId.HasValue)
+            {
+                // /votes?translationId=...
+                return _context.Votes.GetAllByUserId(userId.Value);
+            }
+            else
+            {
+                throw new Exception("Cannot get all votes. Must specify at least one parameter.");
+            }
         }
 
         [HttpPost]
         [Authorize]
+        [Route("votes")]
         public Vote Add([FromBody]Vote vote)
         {
-            return _context.Votes.Add(vote);
+            Guid authenticatedUserId = ClaimsHelper.GetUserIdFromClaims();
+            return _context.Votes.Add(vote, authenticatedUserId);
         }
 
         [HttpPut]
         [Authorize]
+        [Route("votes/{userId:guid}/{translationId:guid}")]
         public Vote UpdateById(Guid userId, Guid translationId, [FromBody]Vote vote)
         {
-            return _context.Votes.UpdateById(userId, translationId, vote);
+            Guid authenticatedUserId = ClaimsHelper.GetUserIdFromClaims();
+            return _context.Votes.UpdateById(userId, translationId, vote, authenticatedUserId);
         }
 
         [HttpDelete]
         [Authorize]
+        [Route("votes/{userId:guid}/{translationId:guid}")]
         public void DeleteById(Guid userId, Guid translationId)
         {
-            _context.Votes.DeleteById(userId, translationId);
+            Guid authenticatedUserId = ClaimsHelper.GetUserIdFromClaims();
+            _context.Votes.DeleteById(userId, translationId, authenticatedUserId);
         }
     }
 }

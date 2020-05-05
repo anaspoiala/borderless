@@ -36,19 +36,30 @@ namespace Borderless.BusinessLayer
             return _votesDAL.ReadAllByUserId(userId);
         }
 
-        public Vote Add(Vote vote)
+        public Vote Add(Vote vote, Guid authenticatedUserId)
         {
+            ValidateAuthenticatedUserIsVoteAuthor(vote.UserID, authenticatedUserId);
             return _votesDAL.Add(vote);
         }
 
-        public Vote UpdateById(Guid userId, Guid translationId, Vote vote)
+        public Vote UpdateById(Guid userId, Guid translationId, Vote vote, Guid authenticatedUserId)
         {
+            ValidateAuthenticatedUserIsVoteAuthor(userId, authenticatedUserId);
             return _votesDAL.UpdateById(userId, translationId, vote);
         }
 
-        public void DeleteById(Guid userId, Guid translationId)
+        public void DeleteById(Guid userId, Guid translationId, Guid authenticatedUserId)
         {
+            ValidateAuthenticatedUserIsVoteAuthor(userId, authenticatedUserId);
             _votesDAL.DeleteById(userId, translationId);
+        }
+
+        private void ValidateAuthenticatedUserIsVoteAuthor(Guid userId, Guid authenticatedUserId)
+        {
+            if (authenticatedUserId != userId)
+            {
+                throw new ArgumentException();
+            }
         }
     }
 }

@@ -6,7 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Borderless.ServiceLayer.Helpers
 {
-    public class JwtTokenHelper
+    public static class JwtTokenHelper
     {
         private const string SECRET_KEY = "VeRy sEcReT AnD SeCuRe kEy :)";
 

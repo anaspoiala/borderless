@@ -13,22 +13,29 @@ namespace Borderless.BusinessLayer
         private TranslationBL _translations;
         private VoteBL _votes;
 
-        public UserBL Users 
+        public UserBL Users
             => _users ?? (_users = new UserBL(_dalContext.Users));
 
-        public LanguageBL Languages 
+        public LanguageBL Languages
             => _languages ?? (_languages = new LanguageBL(_dalContext.Languages));
 
         public ProjectBL Projects
             => _projects ?? (_projects = new ProjectBL(_dalContext.Projects));
 
-        public PhraseBL Phrases 
-            => _phrases ?? (_phrases = new PhraseBL(_dalContext.Phrases));
+        public PhraseBL Phrases
+            => _phrases ?? (_phrases = new PhraseBL(
+                    _dalContext.Phrases,
+                    _dalContext.Projects)
+                );
 
         public TranslationBL Translations
-            => _translations ?? (_translations = new TranslationBL(_dalContext.Translations));
+            => _translations ?? (_translations = new TranslationBL(
+                    _dalContext.Translations,
+                    _dalContext.Phrases,
+                    _dalContext.Projects
+                ));
 
-        public VoteBL Votes 
+        public VoteBL Votes
             => _votes ?? (_votes = new VoteBL(_dalContext.Votes));
 
 

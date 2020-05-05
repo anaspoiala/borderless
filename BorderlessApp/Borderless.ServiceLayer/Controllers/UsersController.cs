@@ -1,30 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using Borderless.BusinessLayer;
 using Borderless.BusinessLayer.Entities;
 using Borderless.Model.Entities;
+using Borderless.ServiceLayer.Helpers;
 using Service = Borderless.ServiceLayer.Entities;
 
 namespace Borderless.ServiceLayer.Controllers
 {
+    [RoutePrefix("api")]
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class UsersController : ApiController
     {
         private BLContext _context = new BLContext();
 
         [HttpGet]
         [Authorize]
-        public List<Service.User> GetAll()
-        {
-            return _context.Users
-                .GetAll()
-                .Select((user) => ConvertToServiceLayerUser(user))
-                .ToList();
-        }
-
-        [HttpGet]
-        [Authorize]
+        [Route("users/{id:guid}")]
         public Service.User GetById(Guid id)
         {
             var user = _context.Users.GetById(id);
@@ -32,6 +25,7 @@ namespace Borderless.ServiceLayer.Controllers
         }
 
         [HttpPost]
+        [Route("users")]
         public IHttpActionResult Register([FromBody] RegistrationDetails registrationDetails)
         {
             var user = _context.Users.Register(registrationDetails);
@@ -40,18 +34,32 @@ namespace Borderless.ServiceLayer.Controllers
 
         [HttpPut]
         [Authorize]
-        public Service.User UpdateById(Guid id, [FromBody]UserUpdateDetails updateDetails)
+        [Route("users")]
+        public IHttpActionResult UpdateById([FromBody]UserUpdateDetails updateDetails)
         {
-            var user = _context.Users.UpdateById(id, updateDetails);
-            return ConvertToServiceLayerUser(user);
+            Guid authenticatedUserId = ClaimsHelper.GetUserIdFromClaims();
+            var user = _context.Users.UpdateById(authenticatedUserId, updateDetails);
+            return Ok(ConvertToServiceLayerUser(user));
         }
 
         [HttpPut]
         [Authorize]
-        public Service.User UpdatePasswordById(Guid id, [FromBody]Service.PasswordUpdate passwordUpdate)
+        [Route("users/updatePassword")]
+        public IHttpActionResult UpdatePasswordById([FromBody]Service.PasswordUpdate passwordUpdate)
         {
-            var user = _context.Users.UpdatePasswordById(id, passwordUpdate.Password);
-            return ConvertToServiceLayerUser(user);
+            Guid authenticatedUserId = ClaimsHelper.GetUserIdFromClaims();
+            var user = _context.Users.UpdatePasswordById(authenticatedUserId, passwordUpdate.Password);
+            return Ok(ConvertToServiceLayerUser(user));
+        }
+
+        [HttpDelete]
+        [Authorize]
+        [Route("users")]
+        public IHttpActionResult DeleteById()
+        {
+            Guid authenticatedUserId = ClaimsHelper.GetUserIdFromClaims();
+            _context.Users.DeleteById(authenticatedUserId);
+            return Ok();
         }
 
         private Service.User ConvertToServiceLayerUser(User user)
@@ -66,11 +74,5 @@ namespace Borderless.ServiceLayer.Controllers
             };
         }
 
-        [HttpDelete]
-        [Authorize]
-        public void DeleteById(Guid id)
-        {
-            _context.Users.DeleteById(id);
-        }
     }
 }
