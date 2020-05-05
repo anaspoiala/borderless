@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Login</title>
+	
+	<link href="styles/bootstrap.css" rel="stylesheet" >
+
+    <script src="scripts/common.js"></script>
+    <script src="scripts/login.js"></script>
+</head>
+<body>
+	<div class="container">
+		<div class="row my-3">
+			<!-- Login (left column) -->
+			<div class="col-md-6 mb-3 pr-md-4"> 
+				<div>
+					<h2>Login</h2>
+					
+					<!-- Username input -->
+					<div class="form-group">
+						<label for="loginUsernameInput">Username</label>
+						<input id="loginUsernameInput" class="form-control" placeholder="Enter username"/>
+					</div>
+					
+					<!-- Password input-->
+					<div class="form-group">
+						<label for="loginPasswordInput">Password</label>
+						<input id="loginPasswordInput" type="password" class="form-control" placeholder="Enter password"/>
+					</div>
+
+					<!-- Rememeber me checkbox -->
+					<div class="custom-control custom-checkbox my-3">
+						<input id="rememberMeCheckbox" type="checkbox" class="custom-control-input">
+						<label for="rememberMeCheckbox" class="custom-control-label">Remember me</label>
+					</div>
+
+					<!-- Login button  -->
+					<button id="loginButton" class="btn btn-primary">Login</button>
+					
+				</div>
+			</div>
+			
+			<!-- Register (right colulmn) -->
+			<div class="col-md-6 mb-3 pl-md-4">
+				<div>
+					<h2>Register</h2>
+					<!-- First name input -->
+					<div class="form-group">
+						<label for="registerFirstNameInput">First Name</label>
+						<input id="registerFirstNameInput" class="form-control" placeholder="Enter first name"/>
+					</div>
+
+					<!-- Last name input -->
+					<div class="form-group">
+						<label for="registerLastNameInput">Last Name</label>
+						<input id="registerLastNameInput" class="form-control" placeholder="Enter last name"/>
+					</div>
+
+					<!-- Email adress input -->
+					<div class="form-group">
+						<label for="registerEmailInput">Email address</label>
+						<input id="registerEmailInput" class="form-control" placeholder="Enter email"/>
+					</div>
+
+					<!-- Username input -->
+					<div class="form-group">
+						<label for="registerUsernameInput">Username</label>
+						<input id="registerUsernameInput" class="form-control" placeholder="Enter username"/>
+					</div>
+
+					<!-- Password input-->
+					<div class="form-group">
+						<label for="registerPasswordInput">Password</label>
+						<input id="registerPasswordInput" type="password" class="form-control" placeholder="Enter password"/>
+					</div>
+
+					<!-- Register button  -->
+					<button id="registerButton" class="btn btn-primary">Register</button>
+				</div>
+			</dov>
+		</div>
+	</div>
+</body>
+</html>

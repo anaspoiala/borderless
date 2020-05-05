@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    
+    <link href="styles/bootstrap.css" rel="stylesheet" >
+    <link href="styles/searchbar.css" rel="stylesheet" >
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
+    
+    <style>
+        #newProjectButton, 
+        #editProjectButton, 
+        #saveChangesButton, 
+        #cancelChangesButton {
+            height: 50px;
+        }
+
+        .resizeablePanel {
+            overflow-y: scroll;
+            resize: vertical;
+            height: 400px;
+        }
+
+        #languageDropdown {
+            height: 40px;
+        }
+
+        .phraseEditInputs > * {
+            resize: none;
+        }
+    </style>
+
+    <script src="scripts/common.js"></script>
+    <script src="scripts/dashboard-projects-tab.js"></script>
+    <script src="scripts/dashboard-translations-tab.js"></script>
+    <script src="scripts/dashboard-votes-tab.js"></script>
+    <script src="scripts/dashboard-account-tab.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="my-3">
+
+            <!-- Tabs layout -->
+            <ul class="nav nav-tabs nav-fill">
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#projectsTab">Projects</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#translationsTab">Translations</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#upvotesTab">Votes</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#accountTab">Account</a>
+                </li>
+            </ul>
+
+            <!-- Tabs content goes here -->
+            <div id="myTabContent" class="tab-content my-3">
+
+                <!-- Projects tab (view, add, edit, delete) -->
+                <div class="tab-pane fade active show" id="projectsTab">
+
+                    
+
+                    <div class="row my-3"> 
+
+                        <!-- Projects list column -->
+                        <div class="col-md-4 mb-3">
+
+                            <!-- New project button (trigger for the modal) -->
+                            <div class="d-flex mb-3">
+                                <button id="newProjectButton" class="d-flex flex-fill align-items-center btn btn-success py-2 px-3 rounded shadow-none" data-toggle="modal" data-target="#newProjectModal">
+                                    <span class="">New Project</span><span class="flex-fill"></span><span class="material-icons">add</span>
+                                </button>
+                            </div>
+
+                            <!-- Modal with form for adding a new project -->
+                            <div id="newProjectModal" class="modal fade" data-backdrop="static">
+                                <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Create a new project</h5>
+                                            <button type="button" class="close" data-dismiss="modal">
+                                                <span>&times;</span>
+                                            </button>
+                                        </div> 
+
+                                        <!-- Modal body (contains project creation form) -->
+                                        <div id="newProjectModalBody" class="modal-body"></div>
+
+                                        <div class="modal-footer">
+                                            <button id="modalCreateProjectButton" type="button" class="btn btn-primary">Create</button>
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="lead mb-2">Your projects</div>
+
+                            <!-- Projects list -->
+                            <div id="projectsList" class="list-group"></div>
+                        </div>
+
+                        <!-- Selected project's edit column -->
+                        <div class="col-md-8"> 
+
+                            <!-- Project detals edit form -->
+                            <div id="selectedProjectDetails" class="">
+                                <div><small>Select a project to display its details.</small></div>
+                            </div>
+
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Translations tab (view) -->
+                <div class="tab-pane fade" id="translationsTab">
+
+                    <table class="table table-hover">
+                        <thead>
+                            <tr class="table-primary">
+                                <th scope="col">Project name</th>
+                                <th scope="col">Phrase</th>
+                                <th scope="col">Language</th>
+                                <th scope="col">Translation</th>
+                            </tr>
+                        </thead>
+                        <tbody id="translationsTableBody">
+                            
+                        </tbody>
+                    </table> 
+                </div>
+
+                <!-- Upvotes tab (view) -->
+                <div class="tab-pane fade" id="upvotesTab">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr class="table-primary">
+                                <th scope="col">Project name</th>
+                                <th scope="col">Phrase</th>
+                                <th scope="col">Language</th>
+                                <th scope="col">Translation</th>
+                                <th scope="col">Author</th>
+                                <th scope="col">Your vote</th>
+                            </tr>
+                        </thead>
+                        <tbody id="votesTableBody">
+                            <tr>
+                                <td>Random project 1</td>
+                                <td>random phrase 1</td>
+                                <td>en > ja</td>
+                                <td>bla bla bla bla bla bla bla bla bla</td>
+                                <td>User1</td>
+                                <td><span class="material-icons">thumb_up_alt</span></td>
+                                
+                            </tr>
+                            <tr>
+                                <td>Random project 2</td>
+                                <td>random phrase</td>
+                                <td>en > ja</td>
+                                <td>bla bla bla bla bla bla bla bla bla</td>
+                                <td>User2</td>
+                                <td><span class="material-icons">thumb_down_alt</span></td>
+                            </tr>
+                        </tbody>
+                    </table> 
+                </div>
+
+                <!-- Account tab (view account details, update, delete account) -->
+                <div class="tab-pane fade" id="accountTab">
+                    <div class="">
+                        <div class="mb-3">
+                            <!-- Username input -->
+                            <div class="form-group">
+                                <label for="usernameInput">Username</label>
+                                <input id="usernameInput" class="form-control shadow-none" placeholder="Enter username"readonly/>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="mb-3">
+                            <!-- First name input -->
+                            <div class="form-group">
+                                <label for="firstNameInput">First Name</label>
+                                <input id="firstNameInput" class="form-control shadow-none" placeholder="Enter first name"/>
+                            </div>
+
+                            <!-- Last name input -->
+                            <div class="form-group">
+                                <label for="lastNameInput">Last Name</label>
+                                <input id="lastNameInput" class="form-control shadow-none" placeholder="Enter last name"/>
+                            </div>
+
+                            <!-- Email adress input -->
+                            <div class="form-group">
+                                <label for="emailInput">Email address</label>
+                                <input id="emailInput" class="form-control shadow-none" placeholder="Enter email"/>
+                            </div>
+
+                            <!-- Save changes button  -->
+                            <button id="updateUserDataButton" class="btn btn-primary shadow-none">Save changes</button>
+                        </div>
+                        <hr>
+                        <div class="mb-3">
+                            <!-- Password input-->
+                            <div class="form-group">
+                                <label for="newPasswordInput">Change current password</label>
+                                <input id="newPasswordInput" type="password" class="form-control shadow-none" placeholder="Enter new password"/>
+                            </div>
+
+                            <!-- Save changes button  -->
+                            <button id="updatePasswordButton" class="btn btn-primary shadow-none">Update password</button>
+                        </div>
+                        <div id="accountDangerArea" class="mb-3">
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

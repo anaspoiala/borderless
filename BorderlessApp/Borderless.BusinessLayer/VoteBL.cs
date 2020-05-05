@@ -38,28 +38,19 @@ namespace Borderless.BusinessLayer
 
         public Vote Add(Vote vote, Guid authenticatedUserId)
         {
-            ValidateAuthenticatedUserIsVoteAuthor(vote.UserID, authenticatedUserId);
+            vote.UserID = authenticatedUserId;
             return _votesDAL.Add(vote);
         }
 
-        public Vote UpdateById(Guid userId, Guid translationId, Vote vote, Guid authenticatedUserId)
+        public Vote UpdateById(Guid translationId, Vote vote, Guid authenticatedUserId)
         {
-            ValidateAuthenticatedUserIsVoteAuthor(userId, authenticatedUserId);
-            return _votesDAL.UpdateById(userId, translationId, vote);
+            vote.UserID = authenticatedUserId;
+            return _votesDAL.UpdateById(authenticatedUserId, translationId, vote);
         }
 
-        public void DeleteById(Guid userId, Guid translationId, Guid authenticatedUserId)
+        public void DeleteById(Guid translationId, Guid authenticatedUserId)
         {
-            ValidateAuthenticatedUserIsVoteAuthor(userId, authenticatedUserId);
-            _votesDAL.DeleteById(userId, translationId);
-        }
-
-        private void ValidateAuthenticatedUserIsVoteAuthor(Guid userId, Guid authenticatedUserId)
-        {
-            if (authenticatedUserId != userId)
-            {
-                throw new ArgumentException();
-            }
+            _votesDAL.DeleteById(authenticatedUserId, translationId);
         }
     }
 }

@@ -59,7 +59,7 @@ namespace Borderless.BusinessLayer
             if (user == null)
                 throw new Exception("Cannot update inexistent user!");
 
-            user.PasswordHash = GetPasswordHash(updateDetails.Password);
+            //user.PasswordHash = GetPasswordHash(updateDetails.Password);
             user.FirstName = updateDetails.FirstName;
             user.LastName = updateDetails.LastName;
             user.Email = updateDetails.Email;

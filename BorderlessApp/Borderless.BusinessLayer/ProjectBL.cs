@@ -31,25 +31,26 @@ namespace Borderless.BusinessLayer
 
         public Project Add(Project project, Guid authenticatedUserId)
         {
-            ValidateAuthenticatedUserIsProjectOwner(project.UserID, authenticatedUserId);
+            project.UserID = authenticatedUserId;
             return _projectsDAL.Add(project);
         }
 
         public Project UpdateById(Guid projectId, Project project, Guid authenticatedUserId)
         {
-            ValidateAuthenticatedUserIsProjectOwner(project.UserID, authenticatedUserId);
+            ValidateAuthenticatedUserIsProjectOwner(projectId, authenticatedUserId);
+            project.UserID = authenticatedUserId;
             return _projectsDAL.UpdateById(projectId, project);
         }
 
         public void DeleteById(Guid projectId, Guid authenticatedUserId)
         {
-            var project = _projectsDAL.ReadById(projectId);
-            ValidateAuthenticatedUserIsProjectOwner(project.UserID, authenticatedUserId);
+            ValidateAuthenticatedUserIsProjectOwner(projectId, authenticatedUserId);
             _projectsDAL.DeleteById(projectId);
         }
 
-        private void ValidateAuthenticatedUserIsProjectOwner(Guid userId, Guid authenticatedUserId)
+        private void ValidateAuthenticatedUserIsProjectOwner(Guid projectId, Guid authenticatedUserId)
         {
+            var userId = _projectsDAL.ReadById(projectId).UserID;
             if (authenticatedUserId != userId)
             {
                 throw new ArgumentException("The authenticated user MUST be the project owner!");

@@ -1,4 +1,5 @@
-﻿using System.Web.Http;
+﻿using System;
+using System.Web.Http;
 using System.Web.Http.Cors;
 using Borderless.BusinessLayer;
 using Borderless.BusinessLayer.Entities;
@@ -29,6 +30,21 @@ namespace Borderless.ServiceLayer.Controllers
 
             // If not valid, return Unauthorized response code and message
             return Unauthorized();
+        }
+
+        [HttpGet]
+        [Route("authentication/isLoggedIn")]
+        public bool IsLoggedIn()
+        {
+            try
+            {
+                Guid authenticatedUserId = ClaimsHelper.GetUserIdFromClaims();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
     }
 }

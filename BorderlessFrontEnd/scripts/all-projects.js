@@ -1,6 +1,8 @@
 document.addEventListener("ApiLoaded", init);
 
 async function init() {
+	let currentUser = loadCurrentUser();
+
 	renderLoadingProjectsList();
 	let projects = await loadProjects();
 	renderProjectsList(projects);
@@ -12,6 +14,11 @@ async function loadProjects() {
 	let projects = await api.getAllProjects();
 	projects.sort((p1, p2) => p1.Name.localeCompare(p2.Name, "en", { sensitivity: "base" }));
 	return projects;
+}
+
+async function loadCurrentUser() {
+	let currentUser = await api.getCurrentUser();
+	return currentUser;
 }
 
 // HTML Render Methods
@@ -54,7 +61,7 @@ function renderProject(project) {
 	var projectHTML = `
     <div class='project row'>
         <div class="col-sm-8">
-            <div class="projectTitle lead">${project.Name}</div>
+            <div class="projectTitle lead"><a href="translation-tool.html?projectId=${project.ID}">${project.Name}</a></div>
             <div class="projectDescription text-muted text-truncate">${project.Description}</div>
         </div> 
         <div class="projectLanguages col-sm-4">${project.SourceLanguage.Name} > ${targetLanguagesString}</div>

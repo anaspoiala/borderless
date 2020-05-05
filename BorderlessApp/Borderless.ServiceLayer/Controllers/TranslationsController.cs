@@ -64,6 +64,15 @@ namespace Borderless.ServiceLayer.Controllers
             return _context.Translations.UpdateById(id, translation, authenticatedUserId);
         }
 
+        [HttpGet]
+        [Authorize]
+        [Route("translations/{id:guid}/getRole")]
+        public string GetRole(Guid id)
+        {
+            Guid authenticatedUserId = ClaimsHelper.GetUserIdFromClaims();
+            return _context.Translations.GetRole(id, authenticatedUserId);
+        }
+
         [HttpDelete]
         [Authorize]
         [Route("translations/{id:guid}")]

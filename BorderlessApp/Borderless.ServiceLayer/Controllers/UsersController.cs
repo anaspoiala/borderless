@@ -24,6 +24,16 @@ namespace Borderless.ServiceLayer.Controllers
             return ConvertToServiceLayerUser(user);
         }
 
+        [HttpGet]
+        [Authorize]
+        [Route("users/current")]
+        public Service.User GetCurrentUser()
+        {
+            Guid authenticatedUserId = ClaimsHelper.GetUserIdFromClaims();
+            var user = _context.Users.GetById(authenticatedUserId);
+            return ConvertToServiceLayerUser(user);
+        }
+
         [HttpPost]
         [Route("users")]
         public IHttpActionResult Register([FromBody] RegistrationDetails registrationDetails)

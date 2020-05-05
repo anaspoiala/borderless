@@ -1,6 +1,8 @@
 document.addEventListener("ApiLoaded", init);
 
 async function init() {
+	let currentUser = loadCurrentUser();
+
 	let projectId = "ed232639-41ec-463a-bffa-6248732d5a0c";
 
 	renderLoadingPhrases();
@@ -15,6 +17,11 @@ async function init() {
 }
 
 // API Calls
+
+async function loadCurrentUser() {
+	let currentUser = await api.getCurrentUser();
+	return currentUser;
+}
 
 async function loadProjectById(projectId) {
 	let project = await api.getProjectById(projectId);

@@ -40,6 +40,15 @@ namespace Borderless.ServiceLayer.Controllers
             }
         }
 
+        [HttpGet]
+        [Authorize]
+        [Route("votes/{translationId:guid}")]
+        public Vote GetCurrentUserVoteByTranslationId(Guid translationId)
+        {
+            Guid authenticatedUserId = ClaimsHelper.GetUserIdFromClaims();
+            return _context.Votes.GetById(authenticatedUserId, translationId);
+        }
+
         [HttpPost]
         [Authorize]
         [Route("votes")]
@@ -51,20 +60,20 @@ namespace Borderless.ServiceLayer.Controllers
 
         [HttpPut]
         [Authorize]
-        [Route("votes/{userId:guid}/{translationId:guid}")]
-        public Vote UpdateById(Guid userId, Guid translationId, [FromBody]Vote vote)
+        [Route("votes/{translationId:guid}")]
+        public Vote UpdateById(Guid translationId, [FromBody]Vote vote)
         {
             Guid authenticatedUserId = ClaimsHelper.GetUserIdFromClaims();
-            return _context.Votes.UpdateById(userId, translationId, vote, authenticatedUserId);
+            return _context.Votes.UpdateById(translationId, vote, authenticatedUserId);
         }
 
         [HttpDelete]
         [Authorize]
-        [Route("votes/{userId:guid}/{translationId:guid}")]
-        public void DeleteById(Guid userId, Guid translationId)
+        [Route("votes/{translationId:guid}")]
+        public void DeleteById(Guid translationId)
         {
             Guid authenticatedUserId = ClaimsHelper.GetUserIdFromClaims();
-            _context.Votes.DeleteById(userId, translationId, authenticatedUserId);
+            _context.Votes.DeleteById(translationId, authenticatedUserId);
         }
     }
 }

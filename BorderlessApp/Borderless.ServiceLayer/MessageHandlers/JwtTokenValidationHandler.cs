@@ -21,7 +21,8 @@ namespace Borderless.ServiceLayer.MessageHandlers
             // Get the token from the authorization header
             if (!TryRetrieveTokenFromHeader(request, out string token))
             {
-                // Requests will be passed to controllers that don't have the [Authorize] attribute.
+                // Requests without Authorize header will pass to controllers that 
+                // don't require authentication.
                 return base.SendAsync(request, cancellationToken);
             }
 
@@ -35,7 +36,6 @@ namespace Borderless.ServiceLayer.MessageHandlers
                 Thread.CurrentPrincipal = validatedToken;
                 HttpContext.Current.User = validatedToken;
 
-                return base.SendAsync(request, cancellationToken);
             }
             catch (SecurityTokenValidationException)
             {
@@ -46,10 +46,12 @@ namespace Borderless.ServiceLayer.MessageHandlers
                 statusCodeInCaseOfExceptions = HttpStatusCode.InternalServerError;
             }
 
-            return Task<HttpResponseMessage>.Factory.StartNew(
-                () => new HttpResponseMessage(statusCodeInCaseOfExceptions) { },
-                cancellationToken
-            );
+            return base.SendAsync(request, cancellationToken);
+
+            //return Task<HttpResponseMessage>.Factory.StartNew(
+            //    () => new HttpResponseMessage(statusCodeInCaseOfExceptions) { },
+            //    cancellationToken
+            //);
         }
 
         private static bool TryRetrieveTokenFromHeader(HttpRequestMessage request, out string token)

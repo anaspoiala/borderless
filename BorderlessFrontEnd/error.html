@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error!</title>
+
+    <link href="styles/bootstrap.css" rel="stylesheet" >
+    <link href="styles/searchbar.css" rel="stylesheet" >
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+    <style>
+        body, html {
+            height: 100%;
+        }
+        
+        /*Rules for sizing the icon*/
+        .material-icons.md-18 { font-size: 18px; }
+        .material-icons.md-24 { font-size: 24px; }
+        .material-icons.md-36 { font-size: 36px; }
+        .material-icons.md-48 { font-size: 48px; }
+    </style>
+
+    <script src="scripts/common.js"></script>
+</head>
+<body class="d-flex flex-column ">
+    <div class="d-flex flex-column container justify-content-center h-100">
+        <div class="align-middle text-center">
+            <div>
+                <span class="material-icons md-36 text-danger">error_outline</span>
+            </div>
+            <div class="">
+                <h3 class="text-capitalize mt-2">Oups...</h3>
+            </div>
+            <div class="lead">
+                An error has occured while processing your request.
+            </div>
+        </div>
+    </div>
+    
+</body>
+</html>

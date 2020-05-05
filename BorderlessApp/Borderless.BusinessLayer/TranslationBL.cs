@@ -49,14 +49,18 @@ namespace Borderless.BusinessLayer
 
         public Translation Add(Translation translation, Guid authenticatedUserId)
         {
-            ValidateAuthenticatedUserIsTranslationAuthor(translation.UserID, authenticatedUserId);
+            //ValidateAuthenticatedUserIsTranslationAuthor(translation.UserID, authenticatedUserId);
+            translation.UserID = authenticatedUserId;
             return _translationsDAL.Add(translation);
         }
 
         public Translation UpdateById(Guid id, Translation translation, Guid authenticatedUserId)
         {
-            ValidateAuthenticatedUserIsTranslationAuthor(translation.UserID, authenticatedUserId);
-            return _translationsDAL.UpdateById(id, translation);
+            var currentTranslation = _translationsDAL.ReadById(id);
+            ValidateAuthenticatedUserIsTranslationAuthor(currentTranslation.UserID, authenticatedUserId);
+            
+            currentTranslation.Text = translation.Text;
+            return _translationsDAL.UpdateById(id, currentTranslation);
         }
 
         public void DeleteById(Guid id, Guid authenticatedUserId)
@@ -76,6 +80,22 @@ namespace Borderless.BusinessLayer
                     "The authenticated user MUST be the translation author!"
                 );
             }
+        }
+
+        public string GetRole(Guid translationId, Guid authenticatedUserId)
+        {
+            var translation = _translationsDAL.ReadById(translationId);
+
+            if (translation.UserID == authenticatedUserId)
+                return "TRANSLATION_AUTHOR";
+
+            var phrase = _phrasesDAL.ReadById(translation.PhraseID);
+            var project = _projectsDAL.ReadById(phrase.ProjectID);
+
+            if (project.UserID == authenticatedUserId)
+                return "PROJECT_OWNER";
+
+            return "REGULAR_USER";
         }
 
         private void ValidateAuthenticatedUserIsTranslationAuthorOrProjectOwner(
