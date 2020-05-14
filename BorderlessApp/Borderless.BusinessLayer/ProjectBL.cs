@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Borderless.DataAccessLayer;
 using Borderless.Model.Entities;
+using Borderless.Model.Exceptions;
 
 namespace Borderless.BusinessLayer
 {
@@ -53,7 +54,7 @@ namespace Borderless.BusinessLayer
             var userId = _projectsDAL.ReadById(projectId).UserID;
             if (authenticatedUserId != userId)
             {
-                throw new ArgumentException("The authenticated user MUST be the project owner!");
+                throw new ValidationException("The authenticated user MUST be the project owner!");
             }
         }
     }

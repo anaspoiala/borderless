@@ -193,6 +193,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\ClaimsHelper.cs" />
+    <Compile Include="Helpers\ExceptionsFilterAttribute.cs" />
     <Compile Include="Helpers\JwtTokenHelper.cs" />
     <Compile Include="MessageHandlers\JwtTokenValidationHandler.cs" />
     <Compile Include="Entities\LoginResponse.cs" />

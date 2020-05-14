@@ -5,6 +5,7 @@ using Borderless.BusinessLayer.Entities;
 using Borderless.BusinessLayer.Security;
 using Borderless.DataAccessLayer;
 using Borderless.Model.Entities;
+using Borderless.Model.Exceptions;
 
 namespace Borderless.BusinessLayer
 {
@@ -37,7 +38,7 @@ namespace Borderless.BusinessLayer
         public User Register(RegistrationDetails registrationDetails)
         {
             if (_usersDAL.ReadByUsername(registrationDetails.Username) != null)
-                throw new Exception("An user with the same username already exists!");
+                throw new ValidationException("An user with the same username already exists!");
 
             string passwordHash = GetPasswordHash(registrationDetails.Password);
             var user = new User(
@@ -57,7 +58,7 @@ namespace Borderless.BusinessLayer
             var user = _usersDAL.ReadById(id);
 
             if (user == null)
-                throw new Exception("Cannot update inexistent user!");
+                throw new ValidationException("Cannot update inexistent user!");
 
             //user.PasswordHash = GetPasswordHash(updateDetails.Password);
             user.FirstName = updateDetails.FirstName;

@@ -1,0 +1,42 @@
+.alertContainer {
+    position: fixed;
+    bottom: 0;
+    z-index: 2000;
+    width: 100%;
+    left: 0;
+}
+
+#newProjectButton, 
+#editProjectButton, 
+#saveChangesButton, 
+#cancelChangesButton {
+    height: 50px;
+}
+
+.resizeablePanel {
+    overflow-y: scroll;
+    resize: vertical;
+    height: 400px;
+}
+
+#languageDropdown {
+    height: 45px;
+}
+
+.phraseEditInputs > * {
+    resize: none;
+}
+
+.breadcrumb {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block !important;
+}
+.breadcrumb-item {
+    display: inline !important;
+}
+
+.largeBottomMargin {
+    margin-bottom: 100px;
+}

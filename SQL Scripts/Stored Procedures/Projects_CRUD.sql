@@ -6,7 +6,7 @@ GO
 
 ALTER PROCEDURE dbo.Projects_Add
 (
-	@Name varchar(250),
+	@Name nvarchar(250),
 	@Description nvarchar(1000),
 	@UserId uniqueidentifier,
 	@SourceLanguageId uniqueidentifier
@@ -29,7 +29,7 @@ END
 ALTER PROCEDURE dbo.Projects_Update
 (
 	@Id uniqueidentifier,
-	@Name varchar(250),
+	@Name nvarchar(250),
 	@Description nvarchar(1000),
 	@SourceLanguageId uniqueidentifier
 ) 

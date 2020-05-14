@@ -3,6 +3,7 @@ using System.Web.Http;
 using System.Web.Http.Cors;
 using Borderless.BusinessLayer;
 using Borderless.BusinessLayer.Entities;
+using Borderless.Model.Exceptions;
 using Borderless.ServiceLayer.Entities;
 using Borderless.ServiceLayer.Helpers;
 
@@ -28,8 +29,8 @@ namespace Borderless.ServiceLayer.Controllers
                 return Ok(new LoginResponse { Token = token });
             }
 
-            // If not valid, return Unauthorized response code and message
-            return Unauthorized();
+            // If not valid, throw error
+            throw new ValidationException("Invalid login credentials!");
         }
 
         [HttpGet]

@@ -6,12 +6,14 @@
 	<title>Login</title>
 	
 	<link href="styles/bootstrap.css" rel="stylesheet" >
-
+	<link href="styles/style.css" rel="stylesheet" >
+	
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="scripts/common.js"></script>
-    <script src="scripts/login.js"></script>
+    <script type="module" src="scripts/pages/login.js"></script>
 </head>
 <body>
-	<div class="container">
+	<div id="content" class="container  largeBottomMargin">
 		<div class="row my-3">
 			<!-- Login (left column) -->
 			<div class="col-md-6 mb-3 pr-md-4"> 
@@ -60,19 +62,19 @@
 
 					<!-- Email adress input -->
 					<div class="form-group">
-						<label for="registerEmailInput">Email address</label>
+						<label for="registerEmailInput">Email address <span class="text-danger">*</span></label>
 						<input id="registerEmailInput" class="form-control" placeholder="Enter email"/>
 					</div>
 
 					<!-- Username input -->
 					<div class="form-group">
-						<label for="registerUsernameInput">Username</label>
+						<label for="registerUsernameInput">Username <span class="text-danger">*</span></label>
 						<input id="registerUsernameInput" class="form-control" placeholder="Enter username"/>
 					</div>
 
 					<!-- Password input-->
 					<div class="form-group">
-						<label for="registerPasswordInput">Password</label>
+						<label for="registerPasswordInput">Password <span class="text-danger">*</span></label>
 						<input id="registerPasswordInput" type="password" class="form-control" placeholder="Enter password"/>
 					</div>
 

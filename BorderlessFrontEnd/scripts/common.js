@@ -1,47 +1,47 @@
 const authorization = (() => {
-    function setAuthToken(token, useLocalStorage = false) {
-        _clearStorage();    
+	function setAuthToken(token, useLocalStorage = false) {
+		_clearStorage();
 
-        sessionStorage.authToken = token;
-        if (useLocalStorage) {
-            localStorage.authToken = token;
-        }
-    }
-    
-    function getAuthToken() {
-        return sessionStorage.authToken || localStorage.authToken || null;
-    }
-    
-    function isLoggedIn() {
-        return getAuthToken() != null;
-    }
+		sessionStorage.authToken = token;
+		if (useLocalStorage) {
+			localStorage.authToken = token;
+		}
+	}
 
-    function logOut() {
-        _clearStorage();
-        window.location = "index.html";
-    }
+	function getAuthToken() {
+		return sessionStorage.authToken || localStorage.authToken || null;
+	}
 
-    function _clearStorage() {
-        delete sessionStorage.authToken;
-        delete localStorage.authToken;
-    }
+	function isLoggedIn() {
+		return getAuthToken() != null;
+	}
 
-    return {
-        getAuthToken,
-        setAuthToken,
-        isLoggedIn,
-        logOut
-    };
+	function logOut() {
+		_clearStorage();
+		window.location = "index.html";
+	}
+
+	function _clearStorage() {
+		delete sessionStorage.authToken;
+		delete localStorage.authToken;
+	}
+
+	return {
+		getAuthToken,
+		setAuthToken,
+		isLoggedIn,
+		logOut,
+	};
 })();
 
 function getNavBarHTML() {
-    var unAuthenticatedHTML = `
+	var unAuthenticatedHTML = `
     <li class="nav-item">
         <a class="nav-link" href="authentication.html">Log in/Register</a>
     </li>
     `;
 
-    var authenticatedHTML = `
+	var authenticatedHTML = `
     <li class="nav-item">
         <a class="nav-link" href="dashboard.html">Dashboard</a>
     </li>
@@ -50,7 +50,7 @@ function getNavBarHTML() {
     </li>
     `;
 
-    var navBarHTML = `
+	var navBarHTML = `
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
             <a class="navbar-brand" href="index.html">Borderless</a>
@@ -73,24 +73,14 @@ function getNavBarHTML() {
     </nav>
     `;
 
-    return navBarHTML;
+	return navBarHTML;
 }
 
 document.addEventListener("DOMContentLoaded", init);
 
 function init() {
-    // Insert bootstrap scripts
-    //addScript("https://code.jquery.com/jquery-3.4.1.slim.min.js");
-    addScript("https://code.jquery.com/jquery-3.4.1.min.js");
-    
-    // Workaround to prevent bootstrap script from loading before jquery script
-	setTimeout(() => {
-		addScript("https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js");
-        addScript("https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js");
-        
-        // Insert API script
-        addScript("scripts/api.js");
-	}, 200);
+	addScript("https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js");
+	addScript("https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js");
 
 	// Insert Nav Bar
 	document.body.insertAdjacentHTML("afterbegin", getNavBarHTML());
@@ -108,29 +98,34 @@ function renderLoading(elementId) {
 }
 
 function escapeCharacters(str) {
-    if (typeof str !== 'string') {
-        error('string expected');
-    }
+	if (typeof str !== "string") {
+		error("string expected");
+	}
 
-    return str.replace(/[&<>"']/g, c =>
-        c === '&' ? '&amp;'  :
-        c === '<' ? '&lt;'   :
-        c === '>' ? '&gt;'   :
-        c === '"' ? '&quot;' :
-        c === "'" ? '&#39;'  :
-        error('not handled')
-    );
+	return str.replace(/[&<>"']/g, (c) =>
+		c === "&"
+			? "&amp;"
+			: c === "<"
+			? "&lt;"
+			: c === ">"
+			? "&gt;"
+			: c === '"'
+			? "&quot;"
+			: c === "'"
+			? "&#39;"
+			: error("not handled")
+	);
 
-    function error(m) {
-        throw new Error(m);
-    }
+	function error(m) {
+		throw new Error(m);
+	}
 }
 
 function escapeJSObject(obj) {
-    const json = JSON.stringify(obj);
-    const json_html = escapeCharacters(json);
-    
-    return json_html;
+	const json = JSON.stringify(obj);
+	const json_html = escapeCharacters(json);
+
+	return json_html;
 }
 
 function getQueryParams() {

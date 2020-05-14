@@ -7,11 +7,12 @@
 
     <link href="styles/bootstrap.css" rel="stylesheet" >
     
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="scripts/common.js"></script>
-    <script src="scripts/project.js"></script>
+    <script type="module" src="scripts/pages/project.js"></script>
 </head>
 <body>
-    <div class="container">
+    <div id="content" class="container largeBottomMargin">
         <!-- Title -->
         <div id="projectTitle" class="my-3">
         </div>
@@ -21,6 +22,9 @@
             <!-- Phrases list -->
             <div class="col-md-8 mb-3">
                 <h3 class="text-capitalize my-3">Phrases</h3>
+                <div class="mb-3">
+                    <button id="goToTranslationToolButton" class="btn btn-success shadow-none">Translate this project!</button>
+                </div>
                 <div id="phrasesList" class="list-group"></div>
             </div>
 

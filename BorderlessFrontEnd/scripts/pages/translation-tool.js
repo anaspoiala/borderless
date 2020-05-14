@@ -1,3 +1,7 @@
+import { translationToolView } from "../views/translationToolView.js";
+import { validator } from "../controllers/validators/validator.js";
+import { ValidationError } from "../controllers/errors/validationError.js";
+
 // State data
 let currentProjectId = null;
 let currentPhraseId = null;
@@ -6,30 +10,47 @@ let cachedPhrases = [];
 
 // --------------------------
 
-document.addEventListener("ApiLoaded", async () => {
-	// try to get projectId param and validate is it a guid, otherwise redirect to 404.html
-	const guidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+document.addEventListener("DOMContentLoaded", async () => {
 	let queryParams = getQueryParams();
-	if (guidRegex.test(queryParams.projectId)) {
+	try{
+		validator.validateGuid(queryParams.projectId);
 		currentProjectId = queryParams.projectId;
-	} else {
-		window.location = "404.html";
+
+		if (
+			queryParams.phraseId !== undefined &&
+			queryParams.phraseId !== "" 			
+		) {
+			validator.validateGuid(queryParams.phraseId);
+			currentPhraseId = queryParams.phraseId;
+		} else {
+			currentPhraseId = undefined;
+		}
+
+	} catch (err) {
+		if (err instanceof ValidationError) {
+			console.log(`Validation Error: ${err.message}`);
+			window.location = "404.html";
+		} else {
+			window.location = "error.html";
+		}
 	}
 
-	await getAndRenderProject(currentProjectId);
+	await translationToolView.renderPage(currentProjectId, currentPhraseId);
 
-	let submitTranslationButton = document.getElementById("submitTranslationButton");
-	submitTranslationButton.onclick = async () => {
-		let translationText = document.getElementById("newTranslationText").value;
+	// await getAndRenderProject(currentProjectId);
 
-		let newTranslation = await api.addTranslation(
-			translationText,
-			currentPhraseId,
-			currentLanguageId
-		);
+	// let submitTranslationButton = document.getElementById("submitTranslationButton");
+	// submitTranslationButton.onclick = async () => {
+	// 	let translationText = document.getElementById("newTranslationText").value;
 
-		await loadAndRenderTranslations();
-	};
+	// 	let newTranslation = await api.addTranslation(
+	// 		translationText,
+	// 		currentPhraseId,
+	// 		currentLanguageId
+	// 	);
+
+	// 	await loadAndRenderTranslations();
+	// };
 });
 
 // State Change Methods

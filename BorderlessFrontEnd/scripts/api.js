@@ -436,8 +436,6 @@ const api = (() => {
 		);
 	}
 
-
-
 	return {
 		login,
 		register,

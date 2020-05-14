@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Borderless.DataAccessLayer;
 using Borderless.Model.Entities;
+using Borderless.Model.Exceptions;
 
 namespace Borderless.BusinessLayer
 {
@@ -76,7 +77,7 @@ namespace Borderless.BusinessLayer
         {
             if (authorId != authenticatedUserId)
             {
-                throw new ArgumentException(
+                throw new ValidationException(
                     "The authenticated user MUST be the translation author!"
                 );
             }
@@ -112,7 +113,7 @@ namespace Borderless.BusinessLayer
             if (authenticatedUserId != projectOwnerId &&
                 authenticatedUserId != translationAuthorId)
             {
-                throw new ArgumentException(
+                throw new ValidationException(
                     "The authenticated user MUST be either the translation author or" + 
                     "the project owner!"
                 );

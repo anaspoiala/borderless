@@ -6,53 +6,32 @@
     <title>Dashboard</title>
     
     <link href="styles/bootstrap.css" rel="stylesheet" >
+    <link href="styles/style.css" rel="stylesheet" >
     <link href="styles/searchbar.css" rel="stylesheet" >
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
-    
-    <style>
-        #newProjectButton, 
-        #editProjectButton, 
-        #saveChangesButton, 
-        #cancelChangesButton {
-            height: 50px;
-        }
 
-        .resizeablePanel {
-            overflow-y: scroll;
-            resize: vertical;
-            height: 400px;
-        }
-
-        #languageDropdown {
-            height: 40px;
-        }
-
-        .phraseEditInputs > * {
-            resize: none;
-        }
-    </style>
-
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="scripts/common.js"></script>
-    <script src="scripts/dashboard-projects-tab.js"></script>
-    <script src="scripts/dashboard-translations-tab.js"></script>
-    <script src="scripts/dashboard-votes-tab.js"></script>
-    <script src="scripts/dashboard-account-tab.js"></script>
+    <script type="module" src="scripts/pages/dashboard-projects-tab.js"></script>
+    <script type="module" src="scripts/pages/dashboard-translations-tab.js"></script>
+    <script type="module" src="scripts/pages/dashboard-votes-tab.js"></script>
+    <script type="module" src="scripts/pages/dashboard-account-tab.js"></script>
 </head>
 <body>
-    <div class="container">
+    <div id="content" class="container largeBottomMargin">
         <div class="my-3">
 
             <!-- Tabs layout -->
             <ul class="nav nav-tabs nav-fill">
                 <li class="nav-item">
-                    <a class="nav-link active" data-toggle="tab" href="#projectsTab">Projects</a>
+                    <a class="nav-link active" data-toggle="tab" href="#projectsTab">My projects</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#translationsTab">Translations</a>
+                    <a class="nav-link" data-toggle="tab" href="#translationsTab">My translations</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#upvotesTab">Votes</a>
+                    <a class="nav-link" data-toggle="tab" href="#upvotesTab">My votes</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" data-toggle="tab" href="#accountTab">Account</a>
@@ -148,7 +127,7 @@
                                 <th scope="col">Language</th>
                                 <th scope="col">Translation</th>
                                 <th scope="col">Author</th>
-                                <th scope="col">Your vote</th>
+                                <th scope="col">Vote</th>
                             </tr>
                         </thead>
                         <tbody id="votesTableBody">

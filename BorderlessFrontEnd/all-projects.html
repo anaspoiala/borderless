@@ -7,16 +7,18 @@
     
     <link href="styles/bootstrap.css" rel="stylesheet" >
     <link href="styles/searchbar.css" rel="stylesheet" >
+    <link href="styles/style.css" rel="stylesheet" >
     
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="scripts/common.js"></script>
-    <script src="scripts/all-projects.js"></script>
+    <script type="module" src="scripts/pages/all-projects.js"></script>
 </head>
 <body>
-    <div class='container'>
-        <div><h2 class="my-3">Projects</h2></div>
+    <div id="content" class='container mt-3 largeBottomMargin'>
+        <div><h2 class="mb-3">Projects</h2></div>
 
         <!-- The search bar for the phrases -->
-        <div id="searchBarContainer" class="mb-1">
+        <div id="" class="searchBarContainer mb-1">
             <input type="text" placeholder="Search projects" class="form-control border shadow-none">
             <button id="searchButton" class="border btn shadow-none">Search</button>
         </div>
